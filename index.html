@@ -151,6 +151,14 @@ details.q[open] summary{border-bottom:1px dashed var(--line);margin-bottom:10px}
 table.mini{min-width:440px}
 table.mini td{white-space:nowrap}
 .bar{display:inline-block;height:12px;width:calc(var(--w) * 1px);max-width:120px;background:var(--accent);opacity:.5;border-radius:3px;margin-right:8px;vertical-align:middle}
+/* Alla frågor */
+.qa-list{display:grid;gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px}
+.qa-part{font-size:22px;padding-top:6px;border-top:1px solid var(--line)}
+.qa-part:first-child{border-top:0;padding-top:0}
+.qa-group{display:grid;gap:6px}
+.qa-group h4{margin:0;font:700 16px var(--f-display);color:var(--t)}
+.qa-group ol{margin:0;padding-left:28px;display:grid;gap:6px;max-width:70ch}
+.qa-group li::marker{color:var(--t);font-family:var(--f-mono);font-size:13px}
 @media (prefers-reduced-motion:no-preference){.card{transition:transform .15s}.card:active{transform:scale(.99)}}
 </style>
 </head>
@@ -167,6 +175,7 @@ table.mini td{white-space:nowrap}
   <nav class="tabs" role="tablist" aria-label="Avsnitt">
     <button role="tab" data-tab="oversikt">Inläsning</button>
     <button role="tab" data-tab="bilder">Bilder</button>
+    <button role="tab" data-tab="fragor">Instuderingsfrågor</button>
     <button role="tab" data-tab="delA">Frågor Del A</button>
     <button role="tab" data-tab="delB">Frågor Del B</button>
     <button role="tab" data-tab="flash">Flashcards</button>
@@ -358,6 +367,98 @@ table.mini td{white-space:nowrap}
       </svg></div>
       <p class="small">Penningmängden ska växa i samma takt som produktionen. ”Inflation är alltid och överallt ett monetärt fenomen” (Friedman). Riksbanken vrider på kranen med styrräntan, köp och försäljning av värdepapper och kassakrav.</p>
     </figure>
+  </section>
+
+  <!-- ALLA FRÅGOR -->
+  <section class="panel" id="fragor" role="tabpanel" hidden>
+    <div class="stack">
+      <h2>Instuderingsfrågor</h2>
+      <p class="lead">Alla frågor precis som de står i lärarens dokument, utan svar. Svaren finns under flikarna Frågor Del A och Frågor Del B.</p>
+    </div>
+    <div class="qa-list">
+      <h3 class="qa-part">Del A</h3>
+      <div class="qa-group t-gen"><h4>Lättare frågor om nationalekonomiska teorier</h4><ol>
+      <li>Vad innebär termen "nationalekonomi"?</li>
+      <li>Vilken nationalekonomisk teori är Adam Smith mest förknippad med?</li>
+      <li>Vad är en handelsbalans?</li>
+      <li>Vad menas med "frihandel"?</li>
+      <li>Vilken period var merkantilismen särskilt dominerande?</li>
+      <li>Vad menade Keynes med att staten bör öka sina utgifter under en lågkonjunktur?</li>
+      <li>Vad är ett exempel på ett land som tillämpade keynesianska idéer under den stora depressionen?</li>
+      <li>Vilket begrepp används för att beskriva Marx syn på kapitalisternas ägande av produktionsmedlen?</li>
+      <li>Vad är huvudfokus i monetarismen?</li>
+      <li>Vad innebär "mervärde" enligt Marx?</li>
+      <li>Vilken teori betonar vikten av en minimal statlig inblandning i ekonomin?</li>
+      <li>Vad är inflation?</li>
+      <li>Vilket ekonomiskt system förespråkas inom klassisk liberalism?</li>
+      <li>Vem var Milton Friedman, och vad är han känd för?</li>
+      <li>Vilken roll spelar staten i en marxistisk ekonomi?</li>
+      <li>Vad innebär begreppet "den osynliga handen"?</li>
+      <li>Vad är syftet med protektionistiska åtgärder som tullar enligt merkantilismen?</li>
+      <li>Vad menas med en "positiv handelsbalans"?</li>
+      <li>Vilken teori kritiserar kapitalismen för att skapa sociala ojämlikheter och klasskamp?</li>
+      <li>Vad innebär "multiplikatoreffekten" inom keynesianismen?</li>
+      </ol></div>
+      <h3 class="qa-part">Del B</h3>
+      <div class="qa-group t-gen"><h4>Allmänna frågor om nationalekonomiska teorier</h4><ol>
+      <li>Vad är en nationalekonomisk teori, och varför är den viktig för att förstå samhällsekonomin?</li>
+      <li>Hur har olika nationalekonomiska teorier utvecklats genom historien, och vad har drivit på dessa förändringar?</li>
+      </ol></div>
+      <div class="qa-group t-merk"><h4>Merkantilism</h4><ol>
+      <li>Vilken tidsperiod var merkantilismen dominerande, och hur påverkade den staters ekonomiska politik?</li>
+      <li>Hur mättes välstånd under merkantilismen?</li>
+      <li>Vad innebär nollsummespel kopplat till merkantilism?</li>
+      <li>Hur definieras en positiv handelsbalans, och varför var den viktig inom merkantilismen?</li>
+      <li>Vad är protektionism och hur kan det kopplas till merkantilism?</li>
+      <li>Vilken roll spelade staten i den merkantilistiska ekonomin?</li>
+      <li>Vad var målet med kolonialism ur ett merkantilistiskt perspektiv?</li>
+      <li>Hur skiljer sig merkantilismens syn på statens roll i ekonomin från klassisk liberalism?</li>
+      <li>Nämn någon kritik som riktas mot merkantilism.</li>
+      </ol></div>
+      <div class="qa-group t-lib"><h4>Klassisk Liberalism / Ekonomisk Liberalism</h4><ol>
+      <li>Vem var Adam Smith, och varför är han central för den klassiska liberalismen?</li>
+      <li>Vad innebär begreppet "den osynliga handen," och hur påverkar det marknaden enligt klassisk liberalism?</li>
+      <li>Vad innebär “Lagen om komparativa (relativa) fördelar”</li>
+      <li>Hur ser klassisk liberalism på statens roll i ekonomin?</li>
+      <li>Hur förhåller sig klassisk liberalism till frihandel och protektionism?</li>
+      <li>Vilken kritik har riktats mot klassisk liberalism, särskilt under industrialiseringen?</li>
+      <li>Nämn någon kritik som riktas mot klassisk liberalism.</li>
+      </ol></div>
+      <div class="qa-group t-marx"><h4>Marxism</h4><ol>
+      <li>Vad är huvuddragen i Marx syn på kapitalism och klasskamp?</li>
+      <li>Hur ser marxismen på relationen mellan arbetarklassen (proletariatet) och kapitalisterna (bourgeoisie)?</li>
+      <li>Vad menas med begreppet "mervärde" i marxistisk teori?</li>
+      <li>Hur föreslår marxismen att kapitalismen ska ersättas, och vad ska komma efter den?</li>
+      <li>Vilken kritik har riktats mot marxistiska idéer, både i teori och i praktiken?</li>
+      </ol></div>
+      <div class="qa-group t-keyn"><h4>Keynesianism</h4><ol>
+      <li>Vad menade John Maynard Keynes med att efterfrågan styr ekonomin?</li>
+      <li>Hur ser keynesianismen på statens roll under en lågkonjunktur?</li>
+      <li>Beskriv vad kontracyklisk politik är kopplat till Keynes</li>
+      <li>Vad innebär "multiplikatoreffekten" inom keynesianismen?</li>
+      <li>Hur skiljer sig keynesianismens syn på finanspolitik från monetarismens syn på penningpolitik?</li>
+      <li>Hur tillämpades keynesianska idéer under den stora depressionen och under finanskrisen 2008?</li>
+      <li>Beskriv någon fördel och någon nackdel med Keynesiansk teori.</li>
+      </ol></div>
+      <div class="qa-group t-mon"><h4>Monetarism</h4><ol>
+      <li>Beskriv 3 verktyg en monetarist menar att man kan arbeta kontracykliskt.</li>
+      <li>Vad är monetarismens syn på penningmängdens betydelse för ekonomin?</li>
+      <li>Hur skiljer sig monetarismens syn på statens roll från keynesianismens?</li>
+      <li>Vad menas med "naturlig arbetslöshet," och hur förklarar monetarismen detta begrepp?</li>
+      <li>Hur ser monetarister på lönesättning?</li>
+      <li>Vilken roll spelar centralbanken i en monetaristisk ekonomi?</li>
+      <li>Hur menar monetarister att inflation uppstår?</li>
+      </ol></div>
+      <div class="qa-group t-gen"><h4>Jämförande frågor</h4><ol>
+      <li>Hur skiljer sig synen på statens roll mellan merkantilism, klassisk liberalism och marxism?</li>
+      <li>Jämför hur merkantilism och keynesianism ser på statliga interventioner  i ekonomin.</li>
+      <li>Vad är de huvudsakliga skillnaderna mellan keynesianism och monetarism när det gäller kontracyklisk politik och hur man ska hantera ekonomiska kriser?</li>
+      <li>Hur förhåller sig klassisk liberalism till marxismens kritik av kapitalismen?</li>
+      <li>Vilka teorier betonar individuell frihet, och vilka betonar kollektivt ägande och kontroll?</li>
+      <li>Vilka skillnader finns mellan merkantilismens och den klassiska liberalismens syn på internationell handel, och hur kan de hjälpa oss att förstå nutida handelskonflikter mellan stora ekonomier som EU, USA och Kina?</li>
+      <li>Koppla valfri nationalekonomisk teoris syn på jämlikhet och klass till mål 10 (Minskad ojämlikhet) inom Agenda 2030. Hur kan teorins perspektiv hjälpa oss att förstå utmaningar eller möjliga lösningar för att minska ojämlikheten i världen idag?</li>
+      </ol></div>
+    </div>
   </section>
 
   <!-- DEL A -->
