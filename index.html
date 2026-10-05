@@ -1,0 +1,708 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Nationalekonomiska teorier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: smal läskolumn med flikrad överst; varje teori har en egen färg som följer med genom hela materialet */
+:root{
+  --bg:#f2f4f1; --surface:#ffffff; --fg:#17201d; --muted:#5a6661; --line:#d5dbd7;
+  --accent:#1f5f4a; --accent-ink:#ffffff; --soft:#e3ece7;
+  --merk:#a2662a; --lib:#2f6fb0; --marx:#b33a3a; --keyn:#6a4fa8; --mon:#3c7d3c;
+  --good:#2d7a45; --bad:#b23b3b;
+  --f-display:"Bricolage Grotesque","Avenir Next",system-ui,sans-serif;
+  --f-body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121816; --surface:#1a2220; --fg:#e6ece9; --muted:#9aa8a2; --line:#2c3733;
+  --accent:#6cc4a1; --accent-ink:#0d1412; --soft:#1f2c28;
+  --merk:#e0a464; --lib:#78aee6; --marx:#ec7f7f; --keyn:#b29cf0; --mon:#86c886;
+  --good:#6fcf8c; --bad:#f08a8a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121816; --surface:#1a2220; --fg:#e6ece9; --muted:#9aa8a2; --line:#2c3733;
+  --accent:#6cc4a1; --accent-ink:#0d1412; --soft:#1f2c28;
+  --merk:#e0a464; --lib:#78aee6; --marx:#ec7f7f; --keyn:#b29cf0; --mon:#86c886;
+  --good:#6fcf8c; --bad:#f08a8a; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:16px;line-height:1.6;margin:0}
+.wrap{max-width:860px;margin:0 auto;padding-inline:16px;padding-block:28px 64px}
+header.top{display:grid;gap:6px;margin-bottom:18px}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font-family:var(--f-display);font-weight:800;font-size:clamp(30px,6vw,46px);line-height:1.05;margin:0;text-wrap:balance;letter-spacing:-.01em}
+h2{font-family:var(--f-display);font-weight:700;font-size:26px;line-height:1.15;margin:0;text-wrap:balance}
+h3{font-family:var(--f-display);font-weight:700;font-size:19px;margin:0;text-wrap:balance}
+p{margin:0}
+.lead{color:var(--muted);max-width:62ch}
+.countdown{display:inline-flex;align-items:center;gap:8px;font-family:var(--f-mono);font-size:13px;background:var(--soft);color:var(--accent);padding:4px 10px;border-radius:999px;justify-self:start}
+nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;gap:4px;overflow-x:auto;padding-block:8px;border-bottom:1px solid var(--line);margin-bottom:24px;scrollbar-width:none}
+nav.tabs button{font:600 14px var(--f-body);border:1px solid transparent;background:none;color:var(--muted);padding:8px 12px;border-radius:8px;cursor:pointer;white-space:nowrap}
+nav.tabs button[aria-selected="true"]{background:var(--accent);color:var(--accent-ink)}
+nav.tabs button:hover:not([aria-selected="true"]){border-color:var(--line);color:var(--fg)}
+button:focus-visible,summary:focus-visible,.card:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+section.panel{display:grid;gap:22px}
+.stack{display:grid;gap:12px}
+.t-merk{--t:var(--merk)}.t-lib{--t:var(--lib)}.t-marx{--t:var(--marx)}.t-keyn{--t:var(--keyn)}.t-mon{--t:var(--mon)}.t-gen{--t:var(--accent)}
+.chip{display:inline-block;font:500 11px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--t);border:1px solid var(--t);padding:1px 7px;border-radius:999px;white-space:nowrap}
+/* Tidslinje */
+.timeline{display:grid;gap:0;border-left:2px solid var(--line);margin-left:6px}
+.tl{position:relative;padding:0 0 18px 20px;display:grid;gap:4px}
+.tl::before{content:"";position:absolute;left:-7px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--t)}
+.tl .when{font:500 13px var(--f-mono);color:var(--t)}
+.tl .why{color:var(--muted);font-size:15px}
+/* Teorikort */
+.theory{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--t);border-radius:10px;padding:18px;display:grid;gap:10px}
+.theory .meta{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:14px;color:var(--muted)}
+.theory ul{margin:0;padding-left:20px;display:grid;gap:4px}
+.kv{display:grid;grid-template-columns:150px 1fr;gap:4px 14px;font-size:15px}
+.kv dt{font-weight:700}
+.kv dd{margin:0;min-width:0}
+@media (max-width:560px){.kv{grid-template-columns:1fr}.kv dd{margin-bottom:6px}}
+.tablebox{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:720px;font-size:14px}
+th,td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--line)}
+thead th{font-family:var(--f-display);font-size:15px;border-bottom:2px solid var(--t,var(--line))}
+tbody th{font-weight:700;color:var(--muted);font-size:13px;white-space:nowrap}
+tr:last-child td,tr:last-child th{border-bottom:0}
+/* Frågor */
+details.q{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--t);border-radius:8px}
+details.q summary{cursor:pointer;padding:12px 14px;display:grid;grid-template-columns:auto 1fr;gap:10px;list-style:none;font-weight:700}
+details.q summary::-webkit-details-marker{display:none}
+details.q summary .n{font:500 13px var(--f-mono);color:var(--t);padding-top:2px;min-width:2.4em}
+details.q .a{padding:0 14px 14px calc(14px + 2.4em + 10px);display:grid;gap:8px}
+details.q .a ul{margin:0;padding-left:20px;display:grid;gap:3px}
+details.q[open] summary{border-bottom:1px dashed var(--line);margin-bottom:10px}
+@media (max-width:560px){details.q .a{padding-left:14px}}
+.grouphead{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-top:8px}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.btn{font:700 14px var(--f-body);background:var(--surface);color:var(--fg);border:1px solid var(--line);border-radius:8px;padding:8px 14px;cursor:pointer}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn:hover{border-color:var(--accent)}
+.tip{background:var(--soft);border-radius:8px;padding:12px 14px;font-size:15px}
+.tip b{color:var(--accent)}
+/* Flashcards */
+.fc-stage{display:grid;gap:14px}
+.card{min-height:230px;background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--t);border-radius:12px;padding:22px;display:grid;place-content:center;text-align:center;gap:10px;cursor:pointer;user-select:none}
+.card .side{font:500 12px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.card .txt{font-size:20px;line-height:1.45;max-width:46ch}
+.card.back .txt{font-size:17px}
+.progress{font:500 13px var(--f-mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.filters{display:flex;flex-wrap:wrap;gap:6px}
+.filters button{font:500 12px var(--f-mono);text-transform:uppercase;letter-spacing:.05em;background:none;border:1px solid var(--t);color:var(--t);border-radius:999px;padding:4px 10px;cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--t);color:var(--surface)}
+/* Quiz */
+.qz{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:10px}
+.qz .qt{font-weight:700}
+.opts{display:grid;gap:6px}
+.opts button{text-align:left;font:15px/1.4 var(--f-body);background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:8px;padding:9px 12px;cursor:pointer}
+.opts button.right{border-color:var(--good);background:color-mix(in srgb,var(--good) 14%,var(--surface))}
+.opts button.wrong{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 12%,var(--surface))}
+.opts button:disabled{cursor:default}
+.expl{font-size:14px;color:var(--muted)}
+.score{font:700 18px var(--f-display);font-variant-numeric:tabular-nums}
+.task{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px;display:grid;gap:10px}
+.task .head{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:baseline}
+.level{font:500 12px var(--f-mono);color:var(--muted)}
+.facit{border-top:1px dashed var(--line);padding-top:10px;display:grid;gap:8px}
+.facit ul{margin:0;padding-left:20px}
+.small{font-size:14px;color:var(--muted)}
+/* Minnesbilder */
+.mem-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.mem{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:grid;gap:10px;align-content:start}
+.mem .ico{width:64px;height:64px;border-radius:14px;background:color-mix(in srgb,var(--t) 14%,var(--surface));display:grid;place-items:center}
+.mem .ico svg{width:44px;height:44px;fill:none;stroke:var(--t);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.mem .ico svg .f{fill:var(--t);stroke:none}
+.mem .key{display:flex;flex-wrap:wrap;gap:4px}
+.mem .key span{font:500 12px var(--f-mono);background:var(--soft);color:var(--fg);padding:2px 7px;border-radius:5px}
+.mem p{font-size:15px}
+/* Figurer */
+.fig{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;display:grid;gap:12px}
+.fig figcaption{display:grid;gap:4px}
+.fig figcaption p{color:var(--muted);font-size:15px}
+.figbox{overflow-x:auto}
+.figbox svg{display:block;width:100%;min-width:600px;height:auto;font-family:var(--f-body);font-size:14px}
+.sv-b{fill:var(--fg);font-weight:700;font-size:14px}
+.sv-s{fill:var(--fg);font-size:13px}
+.sv-muted,.sv-muted text{fill:var(--muted);font-size:13px}
+.sv-fill-fg{fill:var(--fg)}
+.on-dark{fill:var(--bg)}
+.c-lib{fill:var(--lib)}.c-mon{fill:var(--mon)}.c-keyn,.c-keyn rect{fill:var(--keyn)}.c-merk{fill:var(--merk)}.c-marx{fill:var(--marx)}
+.c-lib-t{fill:var(--lib)}.c-mon-t{fill:var(--mon)}.c-keyn-t{fill:var(--keyn)}.c-merk-t{fill:var(--merk)}.c-marx-t{fill:var(--marx)}
+.stop-a{stop-color:var(--lib)}.stop-b{stop-color:var(--marx)}
+.box{fill:var(--bg);stroke:var(--line);stroke-width:1.5}
+.merkbox{stroke:var(--merk);stroke-width:2}
+.wall{fill:none;stroke:var(--merk);stroke-width:2;stroke-dasharray:6 5}
+.ln,.ln line{stroke:var(--fg);stroke-width:1.6;fill:none}
+.ln.thick{stroke-width:4}
+.ln.dash{stroke:var(--line);stroke-dasharray:4 4}
+.pay{fill:var(--soft);stroke:var(--line)}
+.wave{fill:none;stroke:var(--accent);stroke-width:4}
+.hot{fill:var(--marx)}.cold{fill:var(--lib)}.hot-t{fill:var(--marx)}.cold-t{fill:var(--lib)}
+.metal{fill:var(--muted)}
+.water{fill:color-mix(in srgb,var(--lib) 55%,transparent)}
+.glass{fill:none;stroke:var(--fg);stroke-width:2.5}
+.spill{fill:none;stroke:color-mix(in srgb,var(--lib) 70%,transparent);stroke-width:5;stroke-linecap:round}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.mini-card{border:1px solid var(--line);border-left:4px solid var(--t);border-radius:8px;padding:12px;display:grid;gap:6px;font-size:15px}
+table.mini{min-width:440px}
+table.mini td{white-space:nowrap}
+.bar{display:inline-block;height:12px;width:calc(var(--w) * 1px);max-width:120px;background:var(--accent);opacity:.5;border-radius:3px;margin-right:8px;vertical-align:middle}
+@media (prefers-reduced-motion:no-preference){.card{transition:transform .15s}.card:active{transform:scale(.99)}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <span class="eyebrow">Samhällskunskap · Prov 7 oktober 2026</span>
+    <h1>Nationalekonomiska teorier</h1>
+    <p class="lead">Merkantilism, klassisk liberalism, marxism, keynesianism och monetarism. Bygger på instuderingsfrågorna från läraren: alla frågor i Del A och Del B har svar här.</p>
+    <span class="countdown" id="countdown"></span>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="Avsnitt">
+    <button role="tab" data-tab="oversikt">Inläsning</button>
+    <button role="tab" data-tab="bilder">Bilder</button>
+    <button role="tab" data-tab="delA">Frågor Del A</button>
+    <button role="tab" data-tab="delB">Frågor Del B</button>
+    <button role="tab" data-tab="flash">Flashcards</button>
+    <button role="tab" data-tab="quiz">Quiz</button>
+    <button role="tab" data-tab="prov">Testprov</button>
+  </nav>
+
+  <!-- ÖVERSIKT -->
+  <section class="panel" id="oversikt" role="tabpanel">
+    <div class="tip"><b>Plugga så här:</b> börja med minnesbilderna nedan och fliken Bilder. Läs sedan teorikorten och jämförelsetabellen. Gör Del A och Del B utan att titta på svaren, och kör flashcards och quiz. Spara testprovet till sist och skriv svaren för hand innan du öppnar facit.</div>
+
+    <div class="stack">
+      <h2>Minnesbilder</h2>
+      <p class="lead">Varje teori har en bild att se framför sig. Blunda och föreställ dig scenen. När du får en fråga på provet, gå tillbaka till bilden och se vad som händer i den.</p>
+      <div class="mem-grid" id="memGrid"></div>
+    </div>
+
+    <div class="stack">
+      <h2>Varför kom teorierna till?</h2>
+      <p class="lead">Varje teori är ett svar på sin tids problem. Kan du tidslinjen kan du svara på frågan om hur teorierna utvecklats.</p>
+      <div class="timeline">
+        <div class="tl t-merk"><span class="when">ca 1500–1750 · Merkantilism</span><b>Starka nationalstater och kolonier</b><span class="why">Kungar behövde pengar till krig och statsbygge. Rikedom = guld och silver i statskassan.</span></div>
+        <div class="tl t-lib"><span class="when">1776 · Klassisk liberalism</span><b>Adam Smith, <i>Nationernas välstånd</i></b><span class="why">Upplysningen och industrialiseringen. Kritik mot merkantilismens tullar och regleringar: fri marknad skapar välstånd.</span></div>
+        <div class="tl t-marx"><span class="when">1848 / 1867 · Marxism</span><b>Karl Marx, <i>Kommunistiska manifestet</i> och <i>Kapitalet</i></b><span class="why">Industrialismens baksida: fattiga arbetare, barnarbete, slum och stora klassklyftor.</span></div>
+        <div class="tl t-keyn"><span class="when">1936 · Keynesianism</span><b>John Maynard Keynes, <i>Allmän teori om sysselsättning, ränta och pengar</i></b><span class="why">Den stora depressionen på 1930-talet. Marknaden återhämtade sig inte av sig själv, så staten behövde ingripa.</span></div>
+        <div class="tl t-mon"><span class="when">1970-talet · Monetarism</span><b>Milton Friedman, Chicagoskolan</b><span class="why">Stagflation efter oljekriserna: hög inflation och hög arbetslöshet samtidigt. Keynes recept slutade fungera.</span></div>
+      </div>
+    </div>
+
+    <div class="stack">
+      <h2>Jämförelsetabell</h2>
+      <div class="tablebox">
+        <table>
+          <thead><tr><th></th><th class="t-merk" style="color:var(--merk)">Merkantilism</th><th style="color:var(--lib)">Klassisk liberalism</th><th style="color:var(--marx)">Marxism</th><th style="color:var(--keyn)">Keynesianism</th><th style="color:var(--mon)">Monetarism</th></tr></thead>
+          <tbody>
+            <tr><th>Nyckelperson</th><td>Ingen grundare. Colbert (Frankrike) är känd utövare</td><td>Adam Smith, David Ricardo</td><td>Karl Marx, Friedrich Engels</td><td>John Maynard Keynes</td><td>Milton Friedman</td></tr>
+            <tr><th>Vad är välstånd?</th><td>Guld och silver i statskassan</td><td>Produktion och arbete</td><td>Värdet skapas av arbetarnas arbete</td><td>Produktion och full sysselsättning</td><td>Stabil tillväxt med låg inflation</td></tr>
+            <tr><th>Statens roll</th><td>Stor. Styr handel och näringsliv</td><td>Liten. Nattväktarstat</td><td>Total. Staten äger produktionsmedlen (på sikt ska staten försvinna)</td><td>Aktiv. Styr efterfrågan med finanspolitik</td><td>Liten. Stabil penningpolitik via centralbanken</td></tr>
+            <tr><th>Handel</th><td>Protektionism, tullar, positiv handelsbalans</td><td>Frihandel, komparativa fördelar</td><td>Internationell handel gynnar kapitalisterna</td><td>Öppen för handel, men staten kan styra</td><td>Frihandel</td></tr>
+            <tr><th>Nyckelbegrepp</th><td>Nollsummespel, handelsbalans, kolonier</td><td>Osynliga handen, laissez-faire, arbetsdelning</td><td>Mervärde, klasskamp, exploatering, proletariat</td><td>Efterfrågan, kontracyklisk politik, multiplikatoreffekt</td><td>Penningmängd, inflation, naturlig arbetslöshet</td></tr>
+            <tr><th>Verktyg</th><td>Tullar, exportstöd, monopol, kolonier</td><td>Låt marknaden sköta sig</td><td>Revolution, planekonomi</td><td>Statens utgifter och skatter (finanspolitik)</td><td>Ränta och penningmängd (penningpolitik)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="stack" id="theories"></div>
+
+    <div class="stack">
+      <h2>Begrepp att kunna</h2>
+      <dl class="kv" id="glossary"></dl>
+    </div>
+  </section>
+
+  <!-- BILDER -->
+  <section class="panel" id="bilder" role="tabpanel" hidden>
+    <div class="stack">
+      <h2>Teorierna i bilder</h2>
+      <p class="lead">Sju bilder som förklarar det viktigaste. Försök rita av dem ur minnet på ett papper kvällen innan provet.</p>
+    </div>
+
+    <figure class="fig">
+      <figcaption><h3>1. Hur mycket ska staten bestämma?</h3><p>Teorierna på en skala. Ju längre till höger, desto mer styr staten.</p></figcaption>
+      <div class="figbox"><svg viewBox="0 0 720 170" role="img" aria-label="Skala över statens roll">
+        <defs><linearGradient id="gScale" x1="0" x2="1"><stop offset="0" class="stop-a"/><stop offset="1" class="stop-b"/></linearGradient></defs>
+        <rect x="40" y="74" width="640" height="12" rx="6" fill="url(#gScale)"/>
+        <text x="40" y="150" class="sv-muted">◀ Fri marknad, liten stat</text>
+        <text x="680" y="150" class="sv-muted" text-anchor="end">Staten styr allt ▶</text>
+        <g><circle cx="90" cy="80" r="11" class="c-lib"/><text x="90" y="52" text-anchor="middle" class="sv-b c-lib-t">Klassisk liberalism</text></g>
+        <g><circle cx="190" cy="80" r="11" class="c-mon"/><text x="190" y="118" text-anchor="middle" class="sv-b c-mon-t">Monetarism</text></g>
+        <g><circle cx="360" cy="80" r="11" class="c-keyn"/><text x="360" y="52" text-anchor="middle" class="sv-b c-keyn-t">Keynesianism</text></g>
+        <g><circle cx="510" cy="80" r="11" class="c-merk"/><text x="510" y="118" text-anchor="middle" class="sv-b c-merk-t">Merkantilism</text></g>
+        <g><circle cx="640" cy="80" r="11" class="c-marx"/><text x="640" y="52" text-anchor="middle" class="sv-b c-marx-t">Marxism</text></g>
+      </svg></div>
+      <p class="small">Marxism hamnar längst till höger eftersom staten tar över produktionsmedlen under socialismen. Kom ihåg att målet på sikt är ett samhälle helt utan stat.</p>
+    </figure>
+
+    <figure class="fig">
+      <figcaption><h3>2. Merkantilismen: guldet ska in, inte ut</h3><p>Moderlandet sitter i mitten bakom en tullmur och samlar guld.</p></figcaption>
+      <div class="figbox"><svg viewBox="0 0 720 230" role="img" aria-label="Handelsflöden under merkantilismen">
+        <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="sv-fill-fg"/></marker></defs>
+        <rect x="20" y="80" width="150" height="70" rx="8" class="box"/>
+        <text x="95" y="112" text-anchor="middle" class="sv-b">Kolonier</text><text x="95" y="132" text-anchor="middle" class="sv-muted">Amerika, Asien</text>
+        <rect x="262" y="60" width="196" height="110" rx="10" class="wall"/>
+        <text x="360" y="54" text-anchor="middle" class="sv-muted">tullmur</text>
+        <rect x="280" y="80" width="160" height="70" rx="8" class="box merkbox"/>
+        <text x="360" y="108" text-anchor="middle" class="sv-b">Moderlandet</text><text x="360" y="130" text-anchor="middle" class="sv-muted">guldkistan växer</text>
+        <rect x="550" y="80" width="150" height="70" rx="8" class="box"/>
+        <text x="625" y="112" text-anchor="middle" class="sv-b">Andra länder</text><text x="625" y="132" text-anchor="middle" class="sv-muted">konkurrenter</text>
+        <line x1="172" y1="96" x2="258" y2="96" class="ln" marker-end="url(#arr)"/><text x="215" y="30" text-anchor="middle" class="sv-s">råvaror, guld</text><text x="215" y="46" text-anchor="middle" class="sv-s">och silver</text>
+        <line x1="258" y1="134" x2="172" y2="134" class="ln" marker-end="url(#arr)"/><text x="215" y="190" text-anchor="middle" class="sv-s">färdiga varor</text>
+        <line x1="462" y1="96" x2="548" y2="96" class="ln thick" marker-end="url(#arr)"/><text x="505" y="30" text-anchor="middle" class="sv-s">MYCKET export</text>
+        <line x1="548" y1="134" x2="462" y2="134" class="ln" marker-end="url(#arr)"/><text x="505" y="190" text-anchor="middle" class="sv-s">lite import,</text><text x="505" y="206" text-anchor="middle" class="sv-s">betalt i guld</text>
+      </svg></div>
+      <p class="small">Export &gt; import = positiv handelsbalans = mer guld. Kolonierna ger billiga råvaror och köper färdiga varor. Världens rikedom ses som en tårta som inte växer: tar vi en större bit får grannen en mindre (nollsummespel).</p>
+    </figure>
+
+    <figure class="fig">
+      <figcaption><h3>3. Komparativa fördelar: tyg och vin</h3><p>Ricardos exempel. Siffrorna är arbetstimmar för att tillverka en enhet.</p></figcaption>
+      <div class="figbox"><table class="mini">
+        <thead><tr><th></th><th>Tyg</th><th>Vin</th><th>Relativt bäst på</th></tr></thead>
+        <tbody>
+          <tr><th>England</th><td><span class="bar" style="--w:100"></span>100 h</td><td><span class="bar" style="--w:120"></span>120 h</td><td><b>Tyg</b></td></tr>
+          <tr><th>Portugal</th><td><span class="bar" style="--w:90"></span>90 h</td><td><span class="bar" style="--w:80"></span>80 h</td><td><b>Vin</b></td></tr>
+        </tbody></table></div>
+      <p class="small">Portugal är snabbare på båda (absolut fördel), men vinner <i>mest</i> på vin. England förlorar <i>minst</i> på tyg. Om England gör tyg, Portugal gör vin och de byter blir det mer av båda varorna totalt. Båda vinner, så handel är inget nollsummespel.</p>
+    </figure>
+
+    <figure class="fig">
+      <figcaption><h3>4. Marx: vart tar arbetsdagen vägen?</h3><p>En arbetsdag på 8 timmar. Efter 3 timmar har arbetaren redan skapat värde motsvarande sin lön.</p></figcaption>
+      <div class="figbox"><svg viewBox="0 0 720 150" role="img" aria-label="Arbetsdagen delad i lön och mervärde">
+        <rect x="40" y="40" width="240" height="56" rx="6" class="pay"/>
+        <rect x="280" y="40" width="400" height="56" rx="6" class="c-marx"/>
+        <text x="160" y="74" text-anchor="middle" class="sv-b">Lön till arbetaren</text>
+        <text x="480" y="74" text-anchor="middle" class="sv-b on-dark">Mervärde till kapitalisten</text>
+        <g class="sv-muted">
+          <text x="40" y="120" text-anchor="middle">0 h</text><text x="120" y="120" text-anchor="middle">1</text><text x="200" y="120" text-anchor="middle">2</text><text x="280" y="120" text-anchor="middle">3</text><text x="360" y="120" text-anchor="middle">4</text><text x="440" y="120" text-anchor="middle">5</text><text x="520" y="120" text-anchor="middle">6</text><text x="600" y="120" text-anchor="middle">7</text><text x="680" y="120" text-anchor="middle">8 h</text>
+        </g>
+        <text x="40" y="26" class="sv-s">Proletariatet arbetar</text><text x="680" y="26" text-anchor="end" class="sv-s">Bourgeoisien behåller</text>
+      </svg></div>
+      <p class="small">Siffrorna är ett påhittat exempel. Poängen: allt efter den tredje timmen är mervärde. Enligt Marx är det här exploatering, och det är därför klasskampen uppstår.</p>
+    </figure>
+
+    <figure class="fig">
+      <figcaption><h3>5. Konjunkturen och termostaten</h3><p>Ekonomin går i vågor. Kontracyklisk politik betyder att man gör tvärtemot vågen, som en termostat.</p></figcaption>
+      <div class="figbox"><svg viewBox="0 0 720 310" role="img" aria-label="Konjunkturcykel med åtgärder">
+        <line x1="40" y1="150" x2="690" y2="150" class="ln dash"/>
+        <path d="M40,150 C110,80 140,70 200,70 C290,70 330,230 430,230 C530,230 580,70 680,70" class="wave"/>
+        <circle cx="200" cy="70" r="7" class="hot"/><circle cx="430" cy="230" r="7" class="cold"/><circle cx="680" cy="70" r="7" class="hot"/>
+        <text x="200" y="28" text-anchor="middle" class="sv-b hot-t">HÖGKONJUNKTUR · för varmt</text>
+        <text x="200" y="48" text-anchor="middle" class="sv-s">Skruva ner: spara, höj skatt, höj räntan</text>
+        <text x="430" y="260" text-anchor="middle" class="sv-b cold-t">LÅGKONJUNKTUR · för kallt</text>
+        <text x="430" y="278" text-anchor="middle" class="sv-s">Skruva upp: spendera, sänk skatt, sänk räntan</text>
+        <text x="690" y="168" text-anchor="end" class="sv-muted">tid ▶</text>
+        <text x="40" y="304" class="sv-muted">Arbetslösheten är högst i dalen, inflationsrisken störst på toppen</text>
+      </svg></div>
+      <div class="two">
+        <div class="mini-card t-keyn"><span class="chip">Keynes · regeringen</span><p>Vrider på <b>skatter och statens utgifter</b> (finanspolitik). Bryr sig mest om att <b>arbetslösheten</b> ska vara låg.</p></div>
+        <div class="mini-card t-mon"><span class="chip">Friedman · Riksbanken</span><p>Vrider på <b>räntan och penningmängden</b> (penningpolitik). Bryr sig mest om att <b>inflationen</b> ska vara låg.</p></div>
+      </div>
+    </figure>
+
+    <figure class="fig">
+      <figcaption><h3>6. Multiplikatoreffekten: pengarna går vidare</h3><p>Staten lägger 100 kr på en väg. Varje person spenderar 80 % av det hen får och sparar resten.</p></figcaption>
+      <div class="figbox"><svg viewBox="0 0 720 250" role="img" aria-label="Multiplikatoreffekt i fem steg">
+        <g class="c-keyn">
+          <rect x="40" y="40" width="96" height="150" rx="5"/><rect x="170" y="70" width="96" height="120" rx="5"/><rect x="300" y="94" width="96" height="96" rx="5"/><rect x="430" y="113" width="96" height="77" rx="5"/><rect x="560" y="129" width="96" height="61" rx="5"/>
+        </g>
+        <g text-anchor="middle" class="sv-b">
+          <text x="88" y="32">100 kr</text><text x="218" y="62">80 kr</text><text x="348" y="86">64 kr</text><text x="478" y="105">51 kr</text><text x="608" y="121">41 kr …</text>
+        </g>
+        <g text-anchor="middle" class="sv-s">
+          <text x="88" y="212">Staten betalar</text><text x="88" y="228">byggföretaget</text>
+          <text x="218" y="212">Byggarbetarna</text><text x="218" y="228">handlar mat</text>
+          <text x="348" y="212">Butiken betalar</text><text x="348" y="228">lön till kassörer</text>
+          <text x="478" y="212">Kassörerna</text><text x="478" y="228">går på café</text>
+          <text x="608" y="212">Caféet köper</text><text x="608" y="228">in varor</text>
+        </g>
+        <g class="ln"><line x1="138" y1="180" x2="166" y2="180" marker-end="url(#arr)"/><line x1="268" y1="180" x2="296" y2="180" marker-end="url(#arr)"/><line x1="398" y1="180" x2="426" y2="180" marker-end="url(#arr)"/><line x1="528" y1="180" x2="556" y2="180" marker-end="url(#arr)"/></g>
+      </svg></div>
+      <p class="small">100 + 80 + 64 + 51 + 41 + … blir till slut cirka 500 kr. Staten satsade 100 kr men BNP ökade med omkring 500 kr. Ju mer folk sparar, desto mindre blir effekten.</p>
+    </figure>
+
+    <figure class="fig">
+      <figcaption><h3>7. Monetarismen: kranen och glaset</h3><p>Vattnet är pengarna. Glaset är alla varor och tjänster i landet. Centralbanken har handen på kranen.</p></figcaption>
+      <div class="figbox"><svg viewBox="0 0 720 250" role="img" aria-label="Tre glas som visar penningmängd och inflation">
+        <g id="tap">
+          <rect x="80" y="20" width="60" height="16" rx="4" class="metal"/><rect x="128" y="20" width="12" height="34" rx="3" class="metal"/>
+        </g>
+        <use href="#tap" x="230"/><use href="#tap" x="460"/>
+        <!-- Glas 1: lagom -->
+        <rect x="132" y="56" width="4" height="86" class="water"/>
+        <path d="M80,100 L94,200 L176,200 L190,100" class="glass"/>
+        <path d="M86,140 L94,200 L176,200 L184,140 Z" class="water"/>
+        <!-- Glas 2: för mycket -->
+        <rect x="358" y="56" width="10" height="44" class="water"/>
+        <path d="M310,100 L324,200 L406,200 L420,100" class="glass"/>
+        <path d="M310,100 L324,200 L406,200 L420,100 Z" class="water"/>
+        <path d="M420,100 q14,30 6,100 M310,100 q-14,30 -6,100" class="spill"/>
+        <!-- Glas 3: för lite -->
+        <circle cx="595" cy="70" r="4" class="water"/>
+        <path d="M540,100 L554,200 L636,200 L650,100" class="glass"/>
+        <path d="M551,180 L554,200 L636,200 L639,180 Z" class="water"/>
+        <g text-anchor="middle">
+          <text x="135" y="226" class="sv-b c-mon-t">Lagom</text><text x="135" y="244" class="sv-s">stabila priser</text>
+          <text x="365" y="226" class="sv-b c-marx-t">För mycket pengar</text><text x="365" y="244" class="sv-s">rinner över = inflation</text>
+          <text x="595" y="226" class="sv-b cold-t">För lite pengar</text><text x="595" y="244" class="sv-s">ekonomin torkar ut</text>
+        </g>
+      </svg></div>
+      <p class="small">Penningmängden ska växa i samma takt som produktionen. ”Inflation är alltid och överallt ett monetärt fenomen” (Friedman). Riksbanken vrider på kranen med styrräntan, köp och försäljning av värdepapper och kassakrav.</p>
+    </figure>
+  </section>
+
+  <!-- DEL A -->
+  <section class="panel" id="delA" role="tabpanel" hidden>
+    <div class="stack">
+      <h2>Del A · Lättare frågor</h2>
+      <p class="lead">Försök svara själv först, tryck sedan på frågan för att se svaret.</p>
+      <div class="toolbar"><button class="btn" data-expand="delAList">Visa alla svar</button><button class="btn" data-collapse="delAList">Dölj alla</button></div>
+    </div>
+    <div class="stack" id="delAList"></div>
+  </section>
+
+  <!-- DEL B -->
+  <section class="panel" id="delB" role="tabpanel" hidden>
+    <div class="stack">
+      <h2>Del B · Fördjupande frågor</h2>
+      <p class="lead">Svaren är skrivna så att de räcker för högre betyg. För E räcker kärnan i första meningen. För C och A: förklara orsaker och följder, ge exempel och jämför.</p>
+      <div class="toolbar"><button class="btn" data-expand="delBList">Visa alla svar</button><button class="btn" data-collapse="delBList">Dölj alla</button></div>
+    </div>
+    <div class="stack" id="delBList"></div>
+  </section>
+
+  <!-- FLASHCARDS -->
+  <section class="panel" id="flash" role="tabpanel" hidden>
+    <div class="stack">
+      <h2>Flashcards</h2>
+      <p class="lead">Tryck på kortet för att vända det. Välj en teori om du vill öva på en i taget.</p>
+      <div class="filters" id="fcFilters"></div>
+    </div>
+    <div class="fc-stage">
+      <div class="card" id="fcCard" tabindex="0" role="button" aria-label="Vänd kortet"><span class="side" id="fcSide">Fråga</span><span class="txt" id="fcTxt"></span></div>
+      <div class="toolbar" style="justify-content:space-between">
+        <span class="progress" id="fcProg"></span>
+        <div class="toolbar">
+          <button class="btn" id="fcPrev">Föregående</button>
+          <button class="btn" id="fcShuffle">Blanda</button>
+          <button class="btn primary" id="fcNext">Nästa</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="panel" id="quiz" role="tabpanel" hidden>
+    <div class="stack">
+      <h2>Quiz</h2>
+      <div class="toolbar" style="justify-content:space-between"><span class="score" id="qzScore"></span><button class="btn" id="qzReset">Börja om och blanda</button></div>
+    </div>
+    <div class="stack" id="qzList"></div>
+  </section>
+
+  <!-- PROV -->
+  <section class="panel" id="prov" role="tabpanel" hidden>
+    <div class="stack">
+      <h2>Övningsprov</h2>
+      <p class="lead">Ungefär 60 minuter. Skriv dina svar på papper först och öppna facit efteråt. Frågorna liknar instuderingsfrågorna, men några kräver att du kopplar ihop flera teorier.</p>
+    </div>
+    <div class="stack" id="provList"></div>
+  </section>
+</div>
+
+<script>
+const T = {merk:"Merkantilism",lib:"Klassisk liberalism",marx:"Marxism",keyn:"Keynesianism",mon:"Monetarism",gen:"Allmänt"};
+
+/* ---------- Teorikort ---------- */
+const theories = [
+ {k:"merk", when:"ca 1500–1750", who:"Ingen enskild grundare. Jean-Baptiste Colbert i Frankrike är den kände utövaren.",
+  core:["Världens rikedom är begränsad. Handel är ett nollsummespel: det ena landets vinst är det andras förlust.","Välstånd mäts i guld och silver i statskassan.","Målet är en positiv handelsbalans: exportera mer än man importerar.","Staten styr ekonomin med tullar, exportstöd, monopolbolag och kolonier.","Exempel från Sverige: Produktplakatet 1724 och Svenska Ostindiska kompaniet 1731."],
+  crit:"Adam Smith: rikedom är det ett land producerar, inte guld. Handel kan gynna båda parter. Tullar gör varor dyrare för vanliga människor och ledde till handelskrig och krig om kolonier."},
+ {k:"lib", when:"slutet av 1700-talet och 1800-talet", who:"Adam Smith (1723–1790), Nationernas välstånd 1776. David Ricardo (komparativa fördelar, 1817).",
+  core:["Den osynliga handen: när var och en följer sitt eget intresse på en fri marknad gynnas hela samhället.","Utbud och efterfrågan bestämmer priserna. Laissez-faire betyder ungefär ”låt det ske”.","Arbetsdelning och specialisering ökar produktionen (Smiths knappnålsfabrik).","Frihandel och komparativa fördelar: alla länder vinner på att specialisera sig.","Staten ska vara en nattväktarstat: försvar, polis och domstolar som skyddar äganderätt och avtal."],
+  crit:"Under industrialiseringen gav fri marknad barnarbete, långa arbetsdagar, låga löner och slum. Marknaden tar inte hand om miljön, kan skapa monopol och stora klyftor, och löste inte 1930-talskrisen av sig själv."},
+ {k:"marx", when:"mitten av 1800-talet", who:"Karl Marx (1818–1883) och Friedrich Engels. Kommunistiska manifestet 1848, Kapitalet 1867.",
+  core:["Historien är en historia om klasskamp (historisk materialism).","Bourgeoisien (kapitalisterna) äger produktionsmedlen, alltså fabriker, maskiner och mark. Proletariatet (arbetarna) äger bara sin arbetskraft.","Mervärde: arbetaren skapar mer värde än lönen. Mellanskillnaden tar kapitalisten som vinst. Det kallas exploatering (utsugning).","Kapitalismen leder till kriser och växande klyftor tills arbetarna gör revolution.","Efter revolutionen kommer socialism (staten äger produktionsmedlen, planekonomi) och till sist kommunism: ett klasslöst och statslöst samhälle."],
+  crit:"I praktiken blev planekonomierna i Sovjetunionen och Östeuropa ineffektiva, med varubrist och diktatur. Revolutionen kom inte i de rika industriländerna som Marx trodde, och arbetarnas levnadsstandard steg i kapitalistiska länder. Utan vinst och priser saknas drivkrafter och information."},
+ {k:"keyn", when:"1930-talet och framåt, starkast ca 1945–1975", who:"John Maynard Keynes (1883–1946), brittisk ekonom. Huvudverk 1936.",
+  core:["Efterfrågan styr ekonomin. Om hushåll och företag slutar köpa och investera minskar produktionen och arbetslösheten ökar.","Marknaden kan fastna i en lågkonjunktur. Staten måste då ingripa.","Kontracyklisk finanspolitik: öka utgifterna och sänk skatterna i lågkonjunktur, spara och höj skatterna i högkonjunktur.","Multiplikatoreffekten: varje krona staten spenderar ökar BNP med mer än en krona, eftersom pengarna går vidare i flera led.","Exempel: Roosevelts New Deal i USA, den svenska krispolitiken 1933 och stimulanspaketen efter finanskrisen 2008."],
+  crit:"Stora budgetunderskott och växande statsskuld. Politiker sparar sällan i högkonjunktur. Fungerade inte mot stagflationen på 1970-talet då både inflation och arbetslöshet var höga."},
+ {k:"mon", when:"1970-talet och framåt", who:"Milton Friedman (1912–2006), Chicagoskolan, Nobelpriset i ekonomi 1976.",
+  core:["Penningmängden är det viktigaste. Inflation uppstår när penningmängden växer snabbare än produktionen.","Låg och stabil inflation är huvudmålet. Det sköts av en självständig centralbank (i Sverige Riksbanken, målet är 2 % inflation).","Verktyg: styrräntan, penningmängden och bankernas kassakrav (penningpolitik).","Staten ska vara liten och ha balanserad budget. Aktiv finanspolitik ger inflation och tränger undan privata investeringar.","Naturlig arbetslöshet: den nivå som finns när ekonomin är i balans. Den kan inte pressas ner varaktigt med stimulanser."],
+  crit:"Kan ge hög arbetslöshet under tiden inflationen pressas ner (Storbritannien och USA i början av 1980-talet). Ökade klyftor. Sambandet mellan penningmängd och inflation har varit svagare än teorin säger."}
+];
+document.getElementById("theories").innerHTML = '<h2>De fem teorierna</h2>' + theories.map(t=>`
+ <article class="theory t-${t.k}">
+  <div class="grouphead"><h3>${T[t.k]}</h3><span class="chip">${t.when}</span></div>
+  <p class="meta">${t.who}</p>
+  <ul>${t.core.map(c=>`<li>${c}</li>`).join("")}</ul>
+  <p><b>Kritik:</b> ${t.crit}</p>
+ </article>`).join("");
+
+const icons = {
+ merk:`<svg viewBox="0 0 48 48"><rect x="6" y="20" width="36" height="20" rx="3"/><path d="M6 20c0-8 8-12 18-12s18 4 18 12"/><rect x="20" y="25" width="8" height="8" rx="1.5" class="f"/><path d="M6 28h14M28 28h14"/></svg>`,
+ lib:`<svg viewBox="0 0 48 48"><path d="M14 26V12a3 3 0 0 1 6 0v12M20 22V8a3 3 0 0 1 6 0v14M26 22V10a3 3 0 0 1 6 0v14M32 24v-8a3 3 0 0 1 6 0v14c0 8-6 14-14 14h-2c-6 0-9-3-12-8l-4-7a3 3 0 0 1 5-3l3 4" stroke-dasharray="3 3"/></svg>`,
+ marx:`<svg viewBox="0 0 48 48"><path d="M4 42V24l10-6v6l10-6v6l10-6v24z"/><rect x="36" y="8" width="6" height="34"/><path d="M4 42h40"/><rect x="10" y="30" width="5" height="5" class="f"/><rect x="20" y="30" width="5" height="5" class="f"/><rect x="28" y="30" width="5" height="5" class="f"/></svg>`,
+ keyn:`<svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="17"/><path d="M24 24 L33 15"/><circle cx="24" cy="24" r="3" class="f"/><path d="M12 32h3M33 32h3M24 9v3"/><text x="11" y="40" font-size="7" class="f" font-family="sans-serif">−</text><text x="34" y="40" font-size="7" class="f" font-family="sans-serif">+</text></svg>`,
+ mon:`<svg viewBox="0 0 48 48"><path d="M6 10h20v6H6zM20 16v6"/><path d="M14 4v6M10 4h8"/><path d="M23 26v4"/><path d="M12 30l3 14h18l3-14z"/><path d="M14 38h20" stroke-dasharray="2 2"/></svg>`
+};
+const mems = [
+ ["merk","Kungen på guldkistan","Kungen sitter på en guldkista nere i hamnen. Runt hamnen står en hög mur (tullarna). Skepp från kolonierna kommer in fulla med socker och silver, och skepp går ut fulla med tyg. Inget guld får lämna kistan. På bordet står en tårta som aldrig blir större: tar kungen en bit får grannlandet mindre.",["guld = välstånd","tullar","positiv handelsbalans","kolonier","nollsummespel"]],
+ ["lib","Den osynliga handen över torget","Ett stort marknadstorg. Den enda polisen är en nattväktare med en lykta. Ovanför torget svävar en osynlig hand som knuffar bagaren dit folk är hungriga, utan att någon bestämmer. I ett hörn byter en engelsman tyg mot vin med en portugis, och båda går glada därifrån.",["Adam Smith 1776","osynliga handen","laissez-faire","nattväktarstat","frihandel","tyg och vin"]],
+ ["marx","Fabriken med två våningar","Uppe i fabriken sitter ägaren med hög hatt (bourgeoisien). Nere står arbetarna vid maskinerna (proletariatet). De bakar en tårta på åtta bitar men får bara behålla tre. Fem bitar åker upp i en hiss till ägaren: det är mervärdet. Till slut välter arbetarna hissen (revolution).",["klasskamp","produktionsmedel","mervärde","exploatering","revolution","kommunism"]],
+ ["keyn","Termostaten i huset","Ekonomin är ett hus och staten håller i termostaten. När det blir kallt (kris, arbetslöshet) vrider staten upp värmen: bygger vägar och sänker skatter. När det blir för varmt (högkonjunktur) vrider den ner och sparar. Värmen från ett element sprider sig till flera rum: det är multiplikatoreffekten.",["1930-talskrisen","efterfrågan","kontracyklisk","finanspolitik","multiplikator","New Deal"]],
+ ["mon","Kranen och glaset","Riksbankschefen står vid en kran som det rinner pengar ur. Glaset är alla varor i landet. Lagom mycket vatten: glaset fylls jämnt. För mycket: det rinner över, och det är inflation. Friedman står bredvid och säger: rör kranen försiktigt, och låt politikerna hålla händerna borta.",["Friedman","penningmängd","inflation","Riksbanken 2 %","styrränta","naturlig arbetslöshet"]]
+];
+document.getElementById("memGrid").innerHTML = mems.map(([k,h,s,keys])=>`
+ <article class="mem t-${k}"><div class="ico">${icons[k]}</div><span class="chip">${T[k]}</span><h3>${h}</h3><p>${s}</p><div class="key">${keys.map(x=>`<span>${x}</span>`).join("")}</div></article>`).join("");
+
+const glossary = [
+ ["Nationalekonomi","Läran om hur ett samhälle använder sina begränsade resurser: produktion, fördelning och konsumtion."],
+ ["Handelsbalans","Skillnaden mellan värdet på ett lands export och import av varor."],
+ ["Positiv handelsbalans","Exporten är större än importen. Kallas också handelsöverskott."],
+ ["Protektionism","Att skydda den inhemska produktionen mot utländsk konkurrens med tullar, kvoter eller subventioner."],
+ ["Frihandel","Handel mellan länder utan tullar och andra handelshinder."],
+ ["Laissez-faire","”Låt det ske”. Staten ska inte lägga sig i marknaden."],
+ ["Produktionsmedel","Det som behövs för att producera: fabriker, maskiner, mark, råvaror."],
+ ["Konjunktur","Hur ekonomin svänger mellan högkonjunktur (hög efterfrågan, låg arbetslöshet) och lågkonjunktur."],
+ ["Finanspolitik","Statens skatter och utgifter. Riksdag och regering bestämmer."],
+ ["Penningpolitik","Räntan och penningmängden. Centralbanken (Riksbanken) bestämmer."],
+ ["Inflation","Den allmänna prisnivån stiger, så pengarna köper mindre. Mäts med KPI."],
+ ["Stagflation","Stagnation och inflation samtidigt: låg tillväxt, hög arbetslöshet och hög inflation. Typiskt för 1970-talet."],
+ ["BNP","Bruttonationalprodukt. Värdet av allt som produceras i ett land under ett år."]
+];
+document.getElementById("glossary").innerHTML = glossary.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join("");
+
+/* ---------- Del A ---------- */
+const delA = [
+ ["Vad innebär termen ”nationalekonomi”?","gen","Nationalekonomi är vetenskapen om hur ett samhälle hushållar med sina begränsade resurser: hur varor och tjänster produceras, fördelas och konsumeras. Den studerar både hela landets ekonomi (makro, t.ex. BNP, inflation, arbetslöshet) och hur hushåll och företag fattar beslut (mikro)."],
+ ["Vilken nationalekonomisk teori är Adam Smith mest förknippad med?","lib","Klassisk liberalism (ekonomisk liberalism). Han skrev <i>Nationernas välstånd</i> 1776 och kallas nationalekonomins fader."],
+ ["Vad är en handelsbalans?","merk","Skillnaden mellan värdet av ett lands export och import av varor under en viss period."],
+ ["Vad menas med ”frihandel”?","lib","Handel mellan länder utan hinder som tullar, importkvoter eller subventioner till inhemska företag."],
+ ["Vilken period var merkantilismen särskilt dominerande?","merk","Ungefär 1500–1750 (1500-talet till mitten av 1700-talet), när starka nationalstater och kolonialvälden byggdes upp i Europa."],
+ ["Vad menade Keynes med att staten bör öka sina utgifter under en lågkonjunktur?","keyn","I en lågkonjunktur minskar hushållens och företagens efterfrågan, så produktionen faller och arbetslösheten stiger. Staten ska då fylla tomrummet genom att spendera mer (t.ex. bygga vägar, anställa) och sänka skatterna, även om det ger budgetunderskott. Då ökar efterfrågan, företagen producerar mer och fler får jobb."],
+ ["Vad är ett exempel på ett land som tillämpade keynesianska idéer under den stora depressionen?","keyn","USA med Franklin D. Roosevelts <i>New Deal</i> (från 1933): stora offentliga byggprojekt och arbetsprogram. Sverige är också ett bra exempel: Socialdemokraternas krispolitik från 1933 med statliga beredskapsarbeten (finansminister Ernst Wigforss)."],
+ ["Vilket begrepp används för att beskriva Marx syn på kapitalisternas ägande av produktionsmedlen?","marx","<b>Exploatering</b> (utsugning). Kapitalisterna (bourgeoisien) äger produktionsmedlen och kan därför utnyttja arbetarna (proletariatet), som bara äger sin arbetskraft. Marx menar att det privata ägandet av produktionsmedlen är grunden för klassamhället och klasskampen."],
+ ["Vad är huvudfokus i monetarismen?","mon","Penningmängden och inflationen. Staten, genom en självständig centralbank, ska kontrollera hur mycket pengar som finns i ekonomin så att inflationen blir låg och stabil."],
+ ["Vad innebär ”mervärde” enligt Marx?","marx","Skillnaden mellan det värde arbetaren skapar och den lön hen får. Om en arbetare skapar varor värda 1 000 kr på en dag men får 400 kr i lön, är 600 kr mervärde som kapitalisten behåller som vinst."],
+ ["Vilken teori betonar vikten av en minimal statlig inblandning i ekonomin?","lib","Klassisk liberalism (laissez-faire och nattväktarstat). Monetarismen vill också ha en liten stat."],
+ ["Vad är inflation?","mon","När den allmänna prisnivån stiger över tid, så att pengarna köper mindre (penningvärdet sjunker). I Sverige mäts det med KPI och Riksbankens mål är 2 % per år."],
+ ["Vilket ekonomiskt system förespråkas inom klassisk liberalism?","lib","Marknadsekonomi (kapitalism): privat äganderätt, fri konkurrens, fri prisbildning genom utbud och efterfrågan, och frihandel."],
+ ["Vem var Milton Friedman, och vad är han känd för?","mon","En amerikansk ekonom (1912–2006) från Chicagoskolan som fick Nobelpriset i ekonomi 1976. Han är känd som monetarismens grundare och för att kritisera keynesianismen. Han menade att inflation alltid beror på att penningmängden ökar för snabbt och förespråkade fri marknad och en liten stat."],
+ ["Vilken roll spelar staten i en marxistisk ekonomi?","marx","Efter revolutionen tar staten (”proletariatets diktatur”) över produktionsmedlen och styr ekonomin genom planekonomi: staten bestämmer vad som ska produceras, hur mycket och till vilket pris. På sikt ska staten ”vittra bort” när det klasslösa kommunistiska samhället är uppnått. I kapitalismen ser Marx staten som ett verktyg för den härskande klassen."],
+ ["Vad innebär begreppet ”den osynliga handen”?","lib","Adam Smiths idé att när varje människa följer sitt eget intresse på en fri marknad leds hon, som av en osynlig hand, att gynna hela samhället. Bagaren bakar inte bröd av vänlighet utan för att tjäna pengar, men alla får ändå bröd. Utbud och efterfrågan styr priser och produktion utan att någon behöver planera."],
+ ["Vad är syftet med protektionistiska åtgärder som tullar enligt merkantilismen?","merk","Att minska importen och skydda den inhemska produktionen, så att landet får en positiv handelsbalans. Då strömmar guld och silver in i landet i stället för ut, och statskassan växer."],
+ ["Vad menas med en ”positiv handelsbalans”?","merk","Att ett land exporterar varor för mer pengar än det importerar (handelsöverskott)."],
+ ["Vilken teori kritiserar kapitalismen för att skapa sociala ojämlikheter och klasskamp?","marx","Marxismen."],
+ ["Vad innebär ”multiplikatoreffekten” inom keynesianismen?","keyn","När staten spenderar en summa pengar ökar BNP med mer än den summan, eftersom pengarna används flera gånger. Exempel: staten betalar ett byggföretag 100 miljoner. Byggarbetarna får lön och handlar mat, butiken anställer mer personal som i sin tur handlar osv. En persons utgift blir nästa persons inkomst."]
+];
+
+/* ---------- Del B ---------- */
+const delB = [
+ {g:"Allmänna frågor", k:"gen", qs:[
+  ["Vad är en nationalekonomisk teori, och varför är den viktig för att förstå samhällsekonomin?", `<p>En nationalekonomisk teori är en förenklad förklaring av hur ekonomin fungerar och hur den bör styras: vad som skapar välstånd, vad som orsakar kriser, arbetslöshet och inflation, och vilken roll staten ska ha.</p><p>Teorierna är viktiga eftersom de hjälper oss att förstå orsaker och samband, och eftersom politiken bygger på dem. När partier bråkar om skattesänkningar, statliga satsningar eller räntor står de ofta på olika teorier. Kan man teorierna förstår man också varför politiker vill olika saker.</p>`],
+  ["Hur har olika nationalekonomiska teorier utvecklats genom historien, och vad har drivit på dessa förändringar?", `<p>Teorierna har vuxit fram som svar på sin tids problem, ofta efter kriser eller stora samhällsförändringar:</p><ul><li><b>Merkantilism</b> (1500–1700-tal): nationalstater och kolonier. Kungar ville ha guld till krig och stat.</li><li><b>Klassisk liberalism</b> (1776): upplysningen och industrialiseringen. Kritik mot merkantilismens regleringar.</li><li><b>Marxism</b> (1800-talet): reaktion mot industrialismens fattigdom och klassklyftor.</li><li><b>Keynesianism</b> (1930-talet): den stora depressionen visade att marknaden inte alltid återhämtar sig själv.</li><li><b>Monetarism</b> (1970-talet): stagflation och oljekriser, där keynesianismen inte fungerade.</li></ul><p>Drivkrafter: ekonomiska kriser, ny teknik och industrialisering, sociala problem, politiska idéer och att gamla teorier inte längre kunde förklara verkligheten.</p>`]
+ ]},
+ {g:"Merkantilism", k:"merk", qs:[
+  ["Vilken tidsperiod var merkantilismen dominerande, och hur påverkade den staters ekonomiska politik?", `<p>Ungefär 1500–1750. Staterna styrde ekonomin hårt: de satte höga tullar på import, gav stöd till export och inhemsk tillverkning (manufakturer), gav handelsbolag monopol och skaffade kolonier. Exempel: Colberts politik i Frankrike, och i Sverige Produktplakatet 1724 (utländska fartyg fick bara föra varor från sitt eget land till Sverige) och Svenska Ostindiska kompaniet 1731.</p>`],
+  ["Hur mättes välstånd under merkantilismen?", `<p>I mängden ädelmetaller, alltså guld och silver, som fanns i landet och i statskassan.</p>`],
+  ["Vad innebär nollsummespel kopplat till merkantilism?", `<p>Merkantilisterna trodde att världens samlade rikedom var konstant. Om ett land blev rikare måste ett annat bli fattigare: vinst och förlust tar ut varandra så att summan blir noll. Därför såg man handel som en tävling mellan länder, vilket bidrog till handelskrig och krig om kolonier.</p>`],
+  ["Hur definieras en positiv handelsbalans, och varför var den viktig inom merkantilismen?", `<p>Ett land exporterar mer än det importerar. Det var viktigt eftersom överskottet betalades i guld och silver. Fler ädelmetaller i landet betydde ett rikare och starkare land, som kunde betala för armé och flotta.</p>`],
+  ["Vad är protektionism och hur kan det kopplas till merkantilism?", `<p>Protektionism betyder att man skyddar landets egna producenter mot utländsk konkurrens med tullar, importförbud, kvoter eller subventioner. Det var merkantilismens huvudverktyg för att minska importen och nå en positiv handelsbalans.</p>`],
+  ["Vilken roll spelade staten i den merkantilistiska ekonomin?", `<p>En stor och styrande roll. Staten reglerade handeln, satte tullar, gav monopol och privilegier till handelsbolag, stödde inhemsk industri, byggde upp flottan och erövrade kolonier. Ekonomin skulle tjäna statens makt.</p>`],
+  ["Vad var målet med kolonialism ur ett merkantilistiskt perspektiv?", `<p>Kolonierna skulle ge moderlandet billiga råvaror och ädelmetaller, och fungera som marknad för moderlandets färdiga varor. Kolonierna fick ofta bara handla med moderlandet. Då kunde moderlandet förädla råvarorna, exportera dyrare varor och öka sin positiva handelsbalans.</p>`],
+  ["Hur skiljer sig merkantilismens syn på statens roll i ekonomin från klassisk liberalism?", `<p>Merkantilismen vill ha en stark stat som styr handel och produktion för att landet ska bli rikt. Klassisk liberalism vill att staten håller sig utanför (laissez-faire) och bara sköter försvar, polis och rättsväsende. Liberalerna menar att den fria marknaden, inte staten, skapar välstånd.</p>`],
+  ["Nämn någon kritik som riktas mot merkantilism.", `<ul><li>Välstånd är det ett land producerar, inte hur mycket guld det har (Adam Smith).</li><li>Handel är inte ett nollsummespel. Båda länder kan tjäna på handel.</li><li>Tullar gör varorna dyrare för konsumenterna och skyddar ineffektiva företag.</li><li>Mycket guld i ett land kan ge inflation, som i Spanien på 1500-talet.</li><li>Ledde till konflikter, krig och exploatering av kolonierna.</li></ul>`]
+ ]},
+ {g:"Klassisk liberalism", k:"lib", qs:[
+  ["Vem var Adam Smith, och varför är han central för den klassiska liberalismen?", `<p>En skotsk filosof och ekonom (1723–1790) som skrev <i>Nationernas välstånd</i> 1776. Han kallas nationalekonomins fader. Han kritiserade merkantilismen och menade att välstånd skapas genom arbete, arbetsdelning och fri handel. Hans idéer om den osynliga handen och en begränsad stat är grunden för klassisk liberalism och marknadsekonomi.</p>`],
+  ["Vad innebär begreppet ”den osynliga handen”, och hur påverkar det marknaden enligt klassisk liberalism?", `<p>När individer och företag handlar i eget intresse på en fri marknad leds de, som av en osynlig hand, att gynna samhället. Företag vill tjäna pengar och måste då göra det kunderna vill ha, till ett bra pris. Utbud och efterfrågan bestämmer priserna, och resurserna hamnar där de behövs bäst. Därför behövs ingen statlig planering.</p>`],
+  ["Vad innebär ”lagen om komparativa (relativa) fördelar”?", `<p>David Ricardos teori (1817): ett land tjänar på att specialisera sig på det det är <i>relativt</i> bäst på, alltså det som kostar minst att producera jämfört med andra varor, och handla till sig resten. Det gäller även om landet är bättre på att producera allt. Ricardos exempel: England specialiserade sig på tyg och Portugal på vin. När båda specialiserar sig och handlar blir den totala produktionen större och båda vinner.</p>`],
+  ["Hur ser klassisk liberalism på statens roll i ekonomin?", `<p>Staten ska vara så liten som möjligt, en <b>nattväktarstat</b>. Den ska bara sköta försvar, polis och domstolar som skyddar äganderätten och ser till att avtal hålls, och vissa gemensamma saker som vägar. Resten sköter marknaden (laissez-faire).</p>`],
+  ["Hur förhåller sig klassisk liberalism till frihandel och protektionism?", `<p>Den förespråkar frihandel och är emot protektionism. Tullar gör varor dyrare, skyddar ineffektiva företag och hindrar specialisering. Enligt teorin om komparativa fördelar vinner alla länder på fri handel. Handel är alltså inget nollsummespel, vilket är en direkt motsats till merkantilismen.</p>`],
+  ["Vilken kritik har riktats mot klassisk liberalism, särskilt under industrialiseringen?", `<p>Under industrialiseringen ledde fri marknad till mycket dåliga förhållanden för arbetarna: barnarbete, 12–16 timmars arbetsdagar, låga löner, farliga fabriker och trånga slumområden i städerna. Det fanns inget skyddsnät vid sjukdom eller arbetslöshet. Klyftorna mellan fabriksägare och arbetare blev enorma. Kritiker menade att marknaden inte löser sociala problem, och detta ledde till arbetarrörelsen och marxismen.</p>`],
+  ["Nämn någon kritik som riktas mot klassisk liberalism.", `<ul><li>Ökade ekonomiska och sociala klyftor.</li><li>Marknadsmisslyckanden: marknaden tar inte hänsyn till miljön (t.ex. utsläpp) och ordnar inte kollektiva nyttigheter som försvar och gatubelysning.</li><li>Fri konkurrens kan leda till monopol, som gör konkurrensen ofri.</li><li>Marknaden är inte alltid självläkande, vilket den stora depressionen på 1930-talet visade (Keynes kritik).</li></ul>`]
+ ]},
+ {g:"Marxism", k:"marx", qs:[
+  ["Vad är huvuddragen i Marx syn på kapitalism och klasskamp?", `<ul><li>All historia är en historia om klasskamp mellan de som äger och de som inte äger.</li><li>I kapitalismen äger bourgeoisien produktionsmedlen och proletariatet måste sälja sitt arbete.</li><li>Kapitalisterna exploaterar arbetarna genom att behålla mervärdet.</li><li>Kapitalismen leder till återkommande kriser, att rikedomen samlas hos allt färre och att arbetarna blir fattigare.</li><li>Till slut gör arbetarna revolution och kapitalismen ersätts av socialism och sedan kommunism.</li></ul>`],
+  ["Hur ser marxismen på relationen mellan arbetarklassen (proletariatet) och kapitalisterna (bourgeoisien)?", `<p>Som en relation av konflikt och utsugning. Kapitalisterna äger produktionsmedlen och vill ha så hög vinst som möjligt, vilket betyder låga löner. Arbetarna har bara sin arbetskraft att sälja och tvingas acceptera villkoren. Deras intressen är motsatta, och det ger klasskamp. Arbetarna ska bli medvetna om sin situation (klassmedvetande) och gå samman: ”Proletärer i alla länder, förena er!”</p>`],
+  ["Vad menas med begreppet ”mervärde” i marxistisk teori?", `<p>Mervärdet är skillnaden mellan det värde arbetaren skapar med sitt arbete och den lön arbetaren får. Kapitalisten behåller mervärdet som vinst. Enligt Marx är det därför arbetet som skapar värdet (arbetsvärdeläran), och vinsten bygger på att arbetarna utnyttjas.</p>`],
+  ["Hur föreslår marxismen att kapitalismen ska ersättas, och vad ska komma efter den?", `<ol style="margin:0;padding-left:20px"><li><b>Revolution:</b> arbetarna tar makten från kapitalisterna.</li><li><b>Socialism</b> (proletariatets diktatur): staten tar över produktionsmedlen och styr ekonomin med planekonomi. ”Åt var och en efter prestation.”</li><li><b>Kommunism:</b> ett klasslöst samhälle där staten inte längre behövs och vittrar bort. ”Av var och en efter förmåga, åt var och en efter behov.”</li></ol>`],
+  ["Vilken kritik har riktats mot marxistiska idéer, både i teori och i praktiken?", `<p><b>Teori:</b> arbetsvärdeläran tar inte hänsyn till efterfrågan, kapital, teknik och entreprenörers risktagande. Marx förutsägelser slog inte in: revolutionen kom inte i rika industriländer som England och Tyskland, och arbetarnas villkor blev bättre i kapitalismen genom fackföreningar och välfärd. Utan privat ägande och vinst saknas drivkrafter, och utan priser saknas information om vad som behövs.</p><p><b>Praktik:</b> i Sovjetunionen, Östeuropa, Kina under Mao och Nordkorea blev planekonomin ineffektiv, med varubrist och köer. Staterna blev diktaturer med förtryck, censur och brott mot de mänskliga rättigheterna. Staten vittrade aldrig bort.</p>`]
+ ]},
+ {g:"Keynesianism", k:"keyn", qs:[
+  ["Vad menade John Maynard Keynes med att efterfrågan styr ekonomin?", `<p>Det är den totala efterfrågan, alltså hur mycket hushåll, företag och stat köper, som bestämmer hur mycket som produceras och därmed hur många som får jobb. Om människor blir oroliga och sparar i stället för att handla minskar efterfrågan. Då producerar företagen mindre och säger upp folk, som då handlar ännu mindre. Ekonomin kan fastna i en ond cirkel med hög arbetslöshet.</p>`],
+  ["Hur ser keynesianismen på statens roll under en lågkonjunktur?", `<p>Staten ska ingripa aktivt och öka efterfrågan genom att spendera mer pengar (offentliga investeringar som vägar, skolor och bostäder, eller anställningar) och sänka skatterna. Det får gärna ge underskott i statsbudgeten, alltså att staten lånar. Syftet är att bryta den onda cirkeln och få ner arbetslösheten.</p>`],
+  ["Beskriv vad kontracyklisk politik är kopplat till Keynes.", `<p>Kontracyklisk betyder ”mot konjunkturen”. Staten gör tvärtemot vad konjunkturen gör för att jämna ut svängningarna:</p><ul><li><b>Lågkonjunktur:</b> expansiv politik. Öka utgifterna och sänk skatterna så att efterfrågan ökar.</li><li><b>Högkonjunktur:</b> åtstramande politik. Minska utgifterna och höj skatterna så att ekonomin inte överhettas och inflationen inte stiger. Då kan staten spara och betala tillbaka lånen från lågkonjunkturen (”spara i ladorna”).</li></ul>`],
+  ["Vad innebär ”multiplikatoreffekten” inom keynesianismen?", `<p>När staten spenderar pengar ökar den totala efterfrågan och BNP med mer än det belopp staten spenderat. Pengarna går vidare i flera led: staten betalar ett byggföretag, byggarbetarna får lön och handlar i butiker, butikerna anställer fler som också handlar, och så vidare. Varje persons utgift blir någon annans inkomst. Effekten blir mindre ju mer av pengarna som sparas eller går till import.</p>`],
+  ["Hur skiljer sig keynesianismens syn på finanspolitik från monetarismens syn på penningpolitik?", `<p><b>Keynesianismen</b> sätter finanspolitiken i centrum: staten (riksdag och regering) ska använda skatter och utgifter aktivt för att styra efterfrågan och hålla arbetslösheten låg.</p><p><b>Monetarismen</b> sätter penningpolitiken i centrum: en självständig centralbank ska styra räntan och penningmängden för att hålla inflationen låg och stabil. Aktiv finanspolitik är enligt monetarismen skadlig: den ger inflation, budgetunderskott och tränger undan privata investeringar, och den kommer ofta för sent.</p><p>Kort sagt: Keynes huvudmål är <b>låg arbetslöshet</b>, Friedmans är <b>låg inflation</b>.</p>`],
+  ["Hur tillämpades keynesianska idéer under den stora depressionen och under finanskrisen 2008?", `<p><b>Stora depressionen (1930-talet):</b> i USA startade Roosevelt <i>New Deal</i> 1933 med stora offentliga byggprojekt (dammar, vägar, skolor) och arbetsprogram för miljoner arbetslösa. I Sverige förde Socialdemokraterna med Per Albin Hansson och Ernst Wigforss en krispolitik med beredskapsarbeten som finansierades med lån. (New Deal startade innan Keynes huvudverk kom 1936, men räknas som keynesiansk politik.)</p><p><b>Finanskrisen 2008:</b> många länder svarade med stora stimulanspaket. USA antog ett paket på cirka 800 miljarder dollar 2009, och Kina satsade cirka 4 000 miljarder yuan på bland annat infrastruktur. Även Sverige ökade bland annat statsbidragen till kommunerna. Samtidigt sänkte centralbankerna räntorna kraftigt, vilket är penningpolitik.</p>`],
+  ["Beskriv någon fördel och någon nackdel med keynesiansk teori.", `<p><b>Fördelar:</b> kan minska arbetslösheten och lidandet i kriser, jämnar ut konjunktursvängningarna, och bidrog till välfärdsstaten och hög sysselsättning efter andra världskriget.</p><p><b>Nackdelar:</b> kan leda till stora budgetunderskott och växande statsskuld. Politiker har svårt att spara i högkonjunktur, eftersom det är impopulärt. Risk för inflation. Åtgärderna kan komma för sent. Teorin klarade inte stagflationen på 1970-talet.</p>`]
+ ]},
+ {g:"Monetarism", k:"mon", qs:[
+  ["Beskriv tre verktyg en monetarist menar att man kan arbeta kontracykliskt med.", `<p>Alla tre styrs av centralbanken (penningpolitik):</p><ul><li><b>Styrräntan</b> (i Sverige Riksbankens styrränta). Hög inflation: höj räntan, så blir det dyrare att låna och efterfrågan minskar. Lågkonjunktur och låg inflation: sänk räntan.</li><li><b>Penningmängden</b> genom öppna marknadsoperationer, alltså att centralbanken köper eller säljer värdepapper som statsobligationer. Köper den tillförs mer pengar, säljer den dras pengar in.</li><li><b>Kassakrav</b> (reservkrav). Hur stor del av inlåningen bankerna måste ha i reserv. Högre krav betyder att bankerna kan låna ut mindre, så penningmängden minskar.</li></ul><p class="small">Friedman själv ville helst att penningmängden skulle öka i jämn takt varje år i stället för att politiken ändras hela tiden, men på provet räcker de här tre verktygen.</p>`],
+  ["Vad är monetarismens syn på penningmängdens betydelse för ekonomin?", `<p>Penningmängden är det viktigaste för ekonomin. Om penningmängden ökar snabbare än produktionen av varor och tjänster stiger priserna, alltså inflation. Penningmängden ska därför öka i ungefär samma takt som ekonomin växer, så att prisnivån blir stabil.</p>`],
+  ["Hur skiljer sig monetarismens syn på statens roll från keynesianismens?", `<p><b>Keynesianism:</b> en aktiv stat som styr efterfrågan med finanspolitik och gärna går med underskott i kris. Marknaden kan fastna i lågkonjunktur.</p><p><b>Monetarism:</b> en liten stat med balanserad budget som inte försöker styra konjunkturen med egna utgifter. Marknaden är i grunden självreglerande. Staten ska skapa stabila spelregler, och en självständig centralbank ska hålla inflationen låg. Statliga stimulanser ger inflation och tränger undan privata företag.</p>`],
+  ["Vad menas med ”naturlig arbetslöshet”, och hur förklarar monetarismen detta begrepp?", `<p>Naturlig arbetslöshet är den arbetslöshet som finns även när ekonomin är i balans och inflationen är stabil. Den beror på att människor byter jobb (friktionsarbetslöshet) och på att deras kompetens inte matchar jobben som finns (strukturell arbetslöshet).</p><p>Friedman menade att staten inte varaktigt kan pressa ner arbetslösheten under denna nivå med stimulanser. Det ger bara högre inflation. Vill man sänka den naturliga arbetslösheten måste man göra strukturella reformer, till exempel utbildning, en mer flexibel arbetsmarknad och lägre skatt på arbete.</p>`],
+  ["Hur ser monetarister på lönesättning?", `<p>Lönerna ska bestämmas fritt på marknaden efter utbud och efterfrågan på arbetskraft och följa produktiviteten. För höga löner, till exempel på grund av starka fackföreningar eller minimilöner, gör det dyrt att anställa, ger högre arbetslöshet och kan driva på inflationen genom att företagen höjer priserna.</p>`],
+  ["Vilken roll spelar centralbanken i en monetaristisk ekonomi?", `<p>En huvudroll. Centralbanken ska vara självständig från politikerna och styra penningmängden och räntan så att inflationen hålls låg och stabil. I Sverige är Riksbanken självständig sedan 1999 och har ett inflationsmål på 2 %.</p>`],
+  ["Hur menar monetarister att inflation uppstår?", `<p>När penningmängden växer snabbare än mängden varor och tjänster i ekonomin. Då finns det ”för mycket pengar som jagar för få varor”, och priserna stiger. Friedman: ”Inflation är alltid och överallt ett monetärt fenomen.”</p>`]
+ ]},
+ {g:"Jämförande frågor", k:"gen", qs:[
+  ["Hur skiljer sig synen på statens roll mellan merkantilism, klassisk liberalism och marxism?", `<ul><li><b>Merkantilism:</b> stark stat som styr handel och näringsliv för att göra nationen rik och mäktig. Ekonomin ska tjäna staten.</li><li><b>Klassisk liberalism:</b> minimal stat (nattväktarstat) som bara skyddar äganderätten och upprätthåller lag och ordning. Marknaden ska vara fri.</li><li><b>Marxism:</b> efter revolutionen tar staten över alla produktionsmedel och planerar hela ekonomin. Det slutliga målet är ett samhälle utan stat. Under kapitalismen ser Marx staten som ett verktyg för kapitalisterna.</li></ul><p>Man kan se det som en skala från total statlig kontroll (socialistisk planekonomi) via merkantilismens styrda ekonomi till liberalismens fria marknad.</p>`],
+  ["Jämför hur merkantilism och keynesianism ser på statliga interventioner i ekonomin.", `<p><b>Likheter:</b> båda tycker att staten ska ingripa i ekonomin och inte lämna allt åt marknaden.</p><p><b>Skillnader:</b> merkantilismen ingriper permanent för att göra <i>staten</i> rik och stark, främst genom att styra utrikeshandeln med tullar och kolonier. Den ser handel som ett nollsummespel. Keynesianismen ingriper tillfälligt och kontracykliskt för att jämna ut konjunkturen och hålla nere arbetslösheten för <i>medborgarnas</i> skull, främst med skatter och statliga utgifter. Keynesianismen accepterar marknadsekonomi och frihandel i grunden.</p>`],
+  ["Vad är de huvudsakliga skillnaderna mellan keynesianism och monetarism när det gäller kontracyklisk politik och hur man ska hantera ekonomiska kriser?", `<div class="tablebox"><table style="min-width:520px"><thead><tr><th></th><th style="color:var(--keyn)">Keynesianism</th><th style="color:var(--mon)">Monetarism</th></tr></thead><tbody><tr><th>Huvudmål</th><td>Låg arbetslöshet</td><td>Låg och stabil inflation</td></tr><tr><th>Vem agerar</th><td>Regering och riksdag</td><td>Självständig centralbank</td></tr><tr><th>Verktyg</th><td>Finanspolitik: statens utgifter och skatter</td><td>Penningpolitik: ränta och penningmängd</td></tr><tr><th>I en kris</th><td>Staten spenderar mer och sänker skatterna, även med underskott</td><td>Centralbanken sänker räntan. Staten håller budgeten i balans och låter marknaden anpassa sig</td></tr><tr><th>Syn på marknaden</th><td>Kan fastna i kris och behöver hjälp</td><td>Självreglerande på sikt</td></tr></tbody></table></div><p>I verkligheten blandar de flesta länder idag: Riksbanken sköter penningpolitiken enligt monetaristiska idéer, men vid stora kriser (2008, pandemin 2020) använder regeringen också keynesianska stimulanser.</p>`],
+  ["Hur förhåller sig klassisk liberalism till marxismens kritik av kapitalismen?", `<p>Marx kritiserade den kapitalism som klassisk liberalism försvarade: arbetare utnyttjas, klyftorna växer och systemet leder till kriser. Liberaler svarar att:</p><ul><li>Fri marknad och frihandel skapar tillväxt som på sikt gör alla rikare, även arbetarna. Levnadsstandarden har stigit kraftigt i marknadsekonomier.</li><li>Lönen är en frivillig överenskommelse, och kapitalisten tar risk och investerar. Vinsten är ersättning för det, inte stöld.</li><li>Privat äganderätt är en grundläggande frihet. Planekonomi ger brist och ofrihet.</li></ul><p>Liberaler kan ändå hålla med om att det fanns allvarliga problem under industrialiseringen. Senare liberaler (socialliberaler) accepterade därför mer statligt ansvar, till exempel arbetarskydd, skola och socialförsäkringar.</p>`],
+  ["Vilka teorier betonar individuell frihet, och vilka betonar kollektivt ägande och kontroll?", `<p><b>Individuell frihet:</b> klassisk liberalism (fri marknad, privat äganderätt, liten stat) och monetarism (Friedman skrev även <i>Kapitalism och frihet</i>).</p><p><b>Kollektivt ägande och kontroll:</b> marxismen, där produktionsmedlen ägs gemensamt och ekonomin planeras.</p><p><b>Mellanläge:</b> keynesianismen accepterar privat ägande och marknad men vill att staten tar ett större gemensamt ansvar. Merkantilismen betonar statens kontroll, men för nationens makt och inte för jämlikhet.</p>`],
+  ["Vilka skillnader finns mellan merkantilismens och den klassiska liberalismens syn på internationell handel, och hur kan de hjälpa oss att förstå nutida handelskonflikter mellan stora ekonomier som EU, USA och Kina?", `<p><b>Merkantilism:</b> handel är ett nollsummespel. Ett land ska exportera mer än det importerar och skydda sina företag med tullar. <b>Klassisk liberalism:</b> handel gynnar alla. Frihandel och specialisering efter komparativa fördelar gör alla länder rikare.</p><p><b>Idag:</b> USA har under Trumps båda presidentperioder (2018–2019 och från 2025) infört höga tullar på kinesiska varor och även på varor från EU, med argumentet att USA:s handelsunderskott är skadligt och att amerikanska jobb ska skyddas. Det är ett merkantilistiskt tänkande. Kina stöttar sina företag med statliga subventioner (t.ex. elbilar och solpaneler) och har länge haft stora handelsöverskott. EU har svarat med egna tullar, bland annat på kinesiska elbilar 2024. Samtidigt försvarar EU och WTO i grunden frihandel enligt liberala idéer.</p><p>Teorierna hjälper oss att se att konflikten handlar om två synsätt: handel som en tävling där man ska vinna (merkantilism) eller som ett samarbete där alla kan vinna (liberalism). Liberaler varnar för att handelskrig ger dyrare varor för konsumenterna och lägre tillväxt i alla länder.</p>`],
+  ["Koppla valfri nationalekonomisk teoris syn på jämlikhet och klass till mål 10 (minskad ojämlikhet) inom Agenda 2030.", `<p><b>Mål 10:</b> minska ojämlikheten inom och mellan länder.</p><p><b>Exempel med marxismen:</b> Marx menar att ojämlikhet är inbyggd i kapitalismen eftersom de som äger produktionsmedlen tar mervärdet från arbetarna. Det hjälper oss att förstå varför klyftorna växer i många länder idag: de som äger aktier, företag och fastigheter får sina tillgångar att växa snabbare än lönerna. Globalt kan man se att arbetare i låglöneländer som syr kläder eller bryter mineraler får en liten del av värdet, medan vinsten hamnar hos företag i rika länder. Marxistiska lösningar skulle vara gemensamt ägande. En mer moderat lösning i linje med Agenda 2030 är starkare fackföreningar, minimilöner och progressiv skatt.</p><p><b>Alternativ med keynesianismen:</b> staten kan minska ojämlikheten genom omfördelning via skatter och välfärd (skola, vård, a-kassa) och genom att hålla arbetslösheten låg, eftersom arbetslöshet ökar ojämlikheten.</p><p><b>Alternativ med klassisk liberalism:</b> frihandel och tillväxt har lyft hundratals miljoner människor ur fattigdom, till exempel i Kina och Indien, vilket minskar ojämlikheten <i>mellan</i> länder. Men klyftorna <i>inom</i> länder har ofta ökat.</p><p class="small">Tips: välj en teori, förklara dess syn, ge ett konkret exempel från idag och avsluta med en möjlig lösning. Jämför gärna med en annan teori för högre betyg.</p>`]
+ ]}
+];
+
+const esc = s => s;
+document.getElementById("delAList").innerHTML = delA.map(([q,k,a],i)=>`
+ <details class="q t-${k}"><summary><span class="n">A${i+1}</span><span>${q} <span class="chip">${T[k]}</span></span></summary><div class="a"><p>${a}</p></div></details>`).join("");
+document.getElementById("delBList").innerHTML = delB.map(g=>`
+ <div class="grouphead t-${g.k}"><h3>${g.g}</h3><span class="chip">${g.qs.length} frågor</span></div>
+ ${g.qs.map(([q,a],i)=>`<details class="q t-${g.k}"><summary><span class="n">${i+1}</span><span>${q}</span></summary><div class="a">${a}</div></details>`).join("")}`).join("");
+document.querySelectorAll("[data-expand]").forEach(b=>b.onclick=()=>document.querySelectorAll("#"+b.dataset.expand+" details").forEach(d=>d.open=true));
+document.querySelectorAll("[data-collapse]").forEach(b=>b.onclick=()=>document.querySelectorAll("#"+b.dataset.collapse+" details").forEach(d=>d.open=false));
+
+/* ---------- Flashcards ---------- */
+const cards = [
+ ["merk","Hur mätte merkantilisterna ett lands välstånd?","I mängden guld och silver i statskassan."],
+ ["merk","Vad betyder att handel är ett nollsummespel?","Världens rikedom är konstant. Ett lands vinst är ett annat lands förlust."],
+ ["merk","Positiv handelsbalans?","Exporten är större än importen."],
+ ["merk","Merkantilismens tidsperiod?","Ungefär 1500–1750."],
+ ["merk","Protektionism?","Att skydda inhemsk produktion med tullar, kvoter och subventioner."],
+ ["merk","Kolonialismens syfte för merkantilisterna?","Billiga råvaror och ädelmetaller in, och en marknad för moderlandets färdiga varor."],
+ ["merk","Svenskt exempel på merkantilism?","Produktplakatet 1724 och Svenska Ostindiska kompaniet 1731."],
+ ["lib","Vem skrev Nationernas välstånd och när?","Adam Smith, 1776."],
+ ["lib","Den osynliga handen?","När alla följer sitt egenintresse på en fri marknad gynnas hela samhället."],
+ ["lib","Laissez-faire?","”Låt det ske.” Staten ska inte lägga sig i ekonomin."],
+ ["lib","Nattväktarstat?","En minimal stat som bara sköter försvar, polis och rättsväsende."],
+ ["lib","Komparativa fördelar – vem och vad?","David Ricardo. Länder ska specialisera sig på det de är relativt bäst på och handla resten. Alla vinner."],
+ ["lib","Vad är välstånd enligt Smith?","Det ett land producerar genom arbete, inte guld."],
+ ["lib","Kritik mot liberalismen under industrialiseringen?","Barnarbete, långa arbetsdagar, låga löner, slum och stora klassklyftor."],
+ ["marx","Bourgeoisie?","Kapitalisterna, som äger produktionsmedlen."],
+ ["marx","Proletariat?","Arbetarklassen, som bara äger sin arbetskraft."],
+ ["marx","Mervärde?","Skillnaden mellan värdet arbetaren skapar och lönen. Kapitalisten behåller det som vinst."],
+ ["marx","Produktionsmedel?","Fabriker, maskiner, mark och råvaror, alltså det som behövs för att producera."],
+ ["marx","Marx tre steg efter kapitalismen?","Revolution, sedan socialism (proletariatets diktatur, planekonomi) och till sist kommunism (klasslöst och statslöst)."],
+ ["marx","Marx två huvudverk?","Kommunistiska manifestet (1848, med Engels) och Kapitalet (1867)."],
+ ["marx","Kommunismens princip?","”Av var och en efter förmåga, åt var och en efter behov.”"],
+ ["marx","Kritik mot marxismen i praktiken?","Ineffektiv planekonomi, varubrist och diktaturer (Sovjetunionen, Östeuropa)."],
+ ["keyn","Vilken kris skapade keynesianismen?","Den stora depressionen på 1930-talet."],
+ ["keyn","Vad styr ekonomin enligt Keynes?","Den totala efterfrågan."],
+ ["keyn","Kontracyklisk politik?","Gör tvärtemot konjunkturen: spendera i lågkonjunktur, spara i högkonjunktur."],
+ ["keyn","Multiplikatoreffekten?","En krona i statliga utgifter ökar BNP med mer än en krona, eftersom pengarna går vidare i flera led."],
+ ["keyn","Finanspolitik?","Statens skatter och utgifter, som riksdag och regering bestämmer."],
+ ["keyn","Exempel på keynesiansk politik?","New Deal i USA (1933), svensk krispolitik 1933, stimulanspaketen efter 2008."],
+ ["keyn","Nackdel med keynesianismen?","Budgetunderskott och statsskuld. Politiker sparar sällan i högkonjunktur. Fungerade inte mot stagflationen."],
+ ["mon","Vem grundade monetarismen?","Milton Friedman, Chicagoskolan, Nobelpris 1976."],
+ ["mon","Varför fick monetarismen genomslag på 1970-talet?","Stagflation: hög inflation och hög arbetslöshet samtidigt efter oljekriserna."],
+ ["mon","Hur uppstår inflation enligt monetarismen?","När penningmängden växer snabbare än produktionen."],
+ ["mon","Tre penningpolitiska verktyg?","Styrräntan, öppna marknadsoperationer (penningmängden) och kassakrav."],
+ ["mon","Naturlig arbetslöshet?","Arbetslösheten när ekonomin är i balans. Kan inte pressas ner med stimulanser utan att inflationen stiger."],
+ ["mon","Penningpolitik?","Räntan och penningmängden, som centralbanken bestämmer."],
+ ["mon","Riksbankens inflationsmål?","2 % per år. Riksbanken är självständig sedan 1999."],
+ ["mon","Monetarismens syn på lönesättning?","Lönerna ska bestämmas av marknaden. För höga löner ger arbetslöshet och inflation."],
+ ["gen","Stagflation?","Låg tillväxt och hög arbetslöshet samtidigt som hög inflation."],
+ ["gen","Keynes vs Friedman – huvudmål?","Keynes: låg arbetslöshet. Friedman: låg inflation."],
+ ["gen","Agenda 2030 mål 10?","Minskad ojämlikhet inom och mellan länder."]
+];
+let fcFilter="all", fcDeck=[], fcI=0, fcBack=false;
+const fcF=document.getElementById("fcFilters");
+fcF.innerHTML=['all','merk','lib','marx','keyn','mon','gen'].map(k=>`<button class="t-${k==='all'?'gen':k}" data-k="${k}" aria-pressed="${k==='all'}">${k==='all'?'Alla':T[k]}</button>`).join("");
+fcF.onclick=e=>{const b=e.target.closest("button");if(!b)return;fcFilter=b.dataset.k;fcF.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));buildDeck(false)};
+function buildDeck(shuffle){fcDeck=cards.filter(c=>fcFilter==="all"||c[0]===fcFilter);if(shuffle)fcDeck.sort(()=>Math.random()-.5);fcI=0;fcBack=false;drawCard()}
+function drawCard(){const c=fcDeck[fcI],el=document.getElementById("fcCard");el.className="card t-"+c[0]+(fcBack?" back":"");document.getElementById("fcSide").textContent=(fcBack?"Svar":"Fråga")+" · "+T[c[0]];document.getElementById("fcTxt").textContent=fcBack?c[2]:c[1];document.getElementById("fcProg").textContent=`Kort ${fcI+1} av ${fcDeck.length}`}
+const flip=()=>{fcBack=!fcBack;drawCard()};
+document.getElementById("fcCard").onclick=flip;
+document.getElementById("fcCard").onkeydown=e=>{if(e.key===" "||e.key==="Enter"){e.preventDefault();flip()}};
+document.getElementById("fcNext").onclick=()=>{fcI=(fcI+1)%fcDeck.length;fcBack=false;drawCard()};
+document.getElementById("fcPrev").onclick=()=>{fcI=(fcI-1+fcDeck.length)%fcDeck.length;fcBack=false;drawCard()};
+document.getElementById("fcShuffle").onclick=()=>buildDeck(true);
+buildDeck(false);
+
+/* ---------- Quiz ---------- */
+const quiz = [
+ ["Vad mätte merkantilisterna välstånd i?",["Antal invånare","Guld och silver","Industriproduktion","BNP"],1,"Ädelmetaller i statskassan."],
+ ["Vilket begrepp hör ihop med Adam Smith?",["Mervärde","Multiplikatoreffekten","Den osynliga handen","Naturlig arbetslöshet"],2,"Smith, Nationernas välstånd 1776."],
+ ["Vad betyder positiv handelsbalans?",["Importen är större än exporten","Statens budget går med överskott","Exporten är större än importen","Inflationen är under 2 %"],2,""],
+ ["Vem formulerade teorin om komparativa fördelar?",["Adam Smith","David Ricardo","Karl Marx","Milton Friedman"],1,"Ricardo 1817, exemplet med tyg och vin."],
+ ["Vad är mervärde enligt Marx?",["Vinsten från export","Skillnaden mellan värdet arbetaren skapar och lönen","Momsen på varor","Räntan på lån"],1,""],
+ ["Vilken händelse gav upphov till keynesianismen?",["Franska revolutionen","Oljekrisen 1973","Den stora depressionen på 1930-talet","Finanskrisen 2008"],2,""],
+ ["Vad ska staten göra i en lågkonjunktur enligt Keynes?",["Höja skatterna","Spara och betala av skulder","Öka utgifterna och sänka skatterna","Höja räntan"],2,"Expansiv finanspolitik för att öka efterfrågan."],
+ ["Vilket verktyg är penningpolitik?",["Sänka inkomstskatten","Bygga en ny motorväg","Höja styrräntan","Höja barnbidraget"],2,"Penningpolitik är ränta och penningmängd, och sköts av centralbanken. De andra är finanspolitik."],
+ ["Hur uppstår inflation enligt monetarismen?",["Penningmängden växer snabbare än produktionen","Fackföreningar är för svaga","Staten sparar för mycket","Importen ökar"],0,"”Inflation är alltid och överallt ett monetärt fenomen.”"],
+ ["Vad kallas Marx samhälle utan klasser och stat?",["Socialism","Kommunism","Merkantilism","Nattväktarstat"],1,"Socialismen är mellansteget."],
+ ["Vilken teori ser handel som ett nollsummespel?",["Klassisk liberalism","Merkantilism","Monetarism","Keynesianism"],1,""],
+ ["Vad är stagflation?",["Hög tillväxt och låg inflation","Låg tillväxt, hög arbetslöshet och hög inflation","Deflation i en högkonjunktur","När handelsbalansen är noll"],1,"1970-talet. Det banade väg för monetarismen."],
+ ["Vem bestämmer penningpolitiken i Sverige?",["Regeringen","Riksdagen","Riksbanken","Finansinspektionen"],2,"Riksbanken är självständig och har ett inflationsmål på 2 %."],
+ ["Vad är en nattväktarstat?",["En stat som styr all produktion","En minimal stat för försvar, polis och rättsväsende","En stat med nattlig utegångsförbud","En stat med stor välfärd"],1,""],
+ ["Vad innebär kontracyklisk politik?",["Följa konjunkturen","Motverka konjunktursvängningarna","Alltid ha balanserad budget","Ha fast växelkurs"],1,"Spendera i lågkonjunktur, spara i högkonjunktur."],
+ ["Vem tillhör proletariatet?",["Fabriksägare","Adel","Arbetare som bara äger sin arbetskraft","Bankirer"],2,""],
+ ["Vem är förknippad med Chicagoskolan och monetarismen?",["Keynes","Friedman","Smith","Colbert"],1,""],
+ ["Vilket exempel är keynesiansk politik?",["Produktplakatet 1724","New Deal","Riksbanken höjer räntan","Avskaffade tullar 1800-talet"],1,"Roosevelt i USA från 1933."],
+ ["Vad innebär multiplikatoreffekten?",["Inflationen fördubblas varje år","En statlig utgift ökar BNP med mer än själva utgiften","Penningmängden ökar automatiskt","Exporten multipliceras av tullar"],1,""],
+ ["Vad menas med naturlig arbetslöshet?",["Arbetslösheten när ekonomin är i balans och inflationen stabil","Arbetslöshet bland bönder","Noll procent arbetslöshet","Arbetslöshet på grund av naturkatastrofer"],0,""],
+ ["Varför ville merkantilisterna ha kolonier?",["För att sprida demokrati","Billiga råvaror och en marknad för egna varor","För att öka frihandeln","För att minska statens makt"],1,""],
+ ["Vilken teori står för frihandel och laissez-faire?",["Merkantilism","Marxism","Klassisk liberalism","Keynesianism"],2,""]
+];
+let qzOrder=[], qzAns={};
+function buildQuiz(){qzOrder=quiz.map((_,i)=>i).sort(()=>Math.random()-.5);qzAns={};drawQuiz()}
+function drawQuiz(){
+ document.getElementById("qzList").innerHTML=qzOrder.map((qi,n)=>{const [q,o,r,ex]=quiz[qi];const a=qzAns[qi];
+  return `<div class="qz"><span class="qt">${n+1}. ${q}</span><div class="opts">${o.map((t,j)=>{let c="";if(a!==undefined){if(j===r)c="right";else if(j===a)c="wrong"}return `<button data-q="${qi}" data-j="${j}" class="${c}" ${a!==undefined?"disabled":""}>${t}</button>`}).join("")}</div>${a!==undefined?`<span class="expl">${a===r?"Rätt!":"Fel. Rätt svar: "+o[r]+"."} ${ex}</span>`:""}</div>`}).join("");
+ const done=Object.keys(qzAns).length, right=Object.entries(qzAns).filter(([q,a])=>quiz[q][2]===a).length;
+ document.getElementById("qzScore").textContent=`${right} rätt av ${done} besvarade · ${quiz.length} frågor`;
+}
+document.getElementById("qzList").onclick=e=>{const b=e.target.closest("button[data-q]");if(!b||b.disabled)return;qzAns[b.dataset.q]=+b.dataset.j;drawQuiz()};
+document.getElementById("qzReset").onclick=buildQuiz;
+buildQuiz();
+
+/* ---------- Övningsprov ---------- */
+const prov = [
+ ["1","Förklara begreppen","E","Förklara kort: a) positiv handelsbalans, b) den osynliga handen, c) mervärde, d) inflation.",
+  `<ul><li><b>a)</b> Ett land exporterar mer än det importerar.</li><li><b>b)</b> Smiths idé att människor som följer sitt egenintresse på en fri marknad gynnar hela samhället.</li><li><b>c)</b> Skillnaden mellan värdet arbetaren skapar och lönen. Kapitalisten behåller det (Marx).</li><li><b>d)</b> Den allmänna prisnivån stiger, så pengarna köper mindre.</li></ul>`],
+ ["2","Merkantilism","E–C","Beskriv merkantilismens syn på handel och välstånd. Förklara varför staterna skaffade kolonier.",
+  `<p><b>E:</b> välstånd = guld och silver. Exportera mer än man importerar. Tullar skyddar landets produktion.</p><p><b>C:</b> förklara sambanden: handel är ett nollsummespel, så ett land blir rikt på andras bekostnad. En positiv handelsbalans betalas i ädelmetaller. Kolonierna gav billiga råvaror och ädelmetaller och var en skyddad marknad för moderlandets färdiga varor, vilket stärkte handelsbalansen. Gärna exempel: Produktplakatet 1724 eller Ostindiska kompaniet.</p>`],
+ ["3","Keynes i lågkonjunktur","C","Föreställ dig att Sverige går in i en djup lågkonjunktur och arbetslösheten stiger kraftigt. Förklara hur en keynesian vill lösa problemet. Använd begreppen efterfrågan, kontracyklisk politik och multiplikatoreffekt.",
+  `<p>Arbetslösheten beror på att efterfrågan har minskat: hushåll och företag köper och investerar mindre. Staten ska föra kontracyklisk, expansiv finanspolitik: öka utgifterna (t.ex. bygga järnväg, renovera skolor, anställa i vården) och sänka skatterna, även om staten måste låna. Genom multiplikatoreffekten ger varje statlig krona mer än en krona i ökad BNP, eftersom lönerna spenderas vidare i flera led. När konjunkturen vänder ska staten strama åt och betala tillbaka lånen.</p>`],
+ ["4","Samma kris, monetaristisk lösning","C–A","Hur skulle en monetarist i stället hantera krisen i uppgift 3? Jämför med det keynesianska svaret och diskutera för- och nackdelar med båda.",
+  `<p><b>Monetarist:</b> Riksbanken sänker styrräntan och kan öka penningmängden (t.ex. köpa statsobligationer) så länge inflationen är låg. Staten ska inte göra stora stimulanser utan hålla budgeten i balans och genomföra strukturreformer som sänker den naturliga arbetslösheten. Marknaden återhämtar sig själv på sikt.</p><p><b>Jämförelse:</b> Keynes vill ha aktiv finanspolitik från regeringen med mål låg arbetslöshet. Friedman vill ha penningpolitik från en självständig centralbank med mål låg inflation.</p><p><b>För A, diskutera:</b> Keynes fördel är snabbare hjälp till de arbetslösa, nackdelen statsskuld och inflationsrisk. Monetarismens fördel är stabila priser och sunda statsfinanser, nackdelen att arbetslösheten kan bli hög och långvarig. Visa gärna att dagens politik ofta blandar båda (2008, pandemin).</p>`],
+ ["5","Marx och kapitalismen","C","Förklara Marx syn på relationen mellan bourgeoisien och proletariatet, och vad som enligt honom ska hända med kapitalismen. Ge också kritik mot teorin.",
+  `<p>Bourgeoisien äger produktionsmedlen och proletariatet säljer sitt arbete. Kapitalisten behåller mervärdet och exploaterar arbetaren, vilket ger klasskamp. Kapitalismen leder till kriser och växande klyftor tills arbetarna gör revolution. Därefter kommer socialism där staten äger produktionsmedlen (planekonomi), och sedan kommunism: klasslöst och statslöst.</p><p><b>Kritik:</b> revolutionen kom inte i rika industriländer. Arbetarnas levnadsstandard steg i kapitalismen. Planekonomierna blev ineffektiva och diktatoriska (Sovjetunionen).</p>`],
+ ["6","Statens roll genom historien","A","Jämför hur merkantilism, klassisk liberalism, marxism och keynesianism ser på statens roll i ekonomin. Förklara varför synen har förändrats över tid.",
+  `<p>Merkantilism: stark styrande stat för nationens makt. Liberalism: minimal nattväktarstat, marknaden styr. Marxism: staten äger allt efter revolutionen, och på sikt ingen stat. Keynesianism: marknadsekonomi men en aktiv stat som jämnar ut konjunkturen.</p><p><b>Förändringen:</b> varje teori svarar på sin tids problem. Liberalismen var en reaktion mot merkantilismens regleringar. Marxismen var en reaktion mot liberalismens sociala följder under industrialiseringen. Keynesianismen kom efter att 1930-talskrisen visade att marknaden inte alltid läker sig själv. För A: dra slutsatser, t.ex. att synen på staten pendlar mellan mer och mindre ingripande beroende på vilka problem som är störst (jämför monetarismens återgång till en mindre stat på 1970-talet).</p>`],
+ ["7","Handelskrig idag","A","USA har infört höga tullar på varor från Kina och EU. Analysera detta med hjälp av merkantilism och klassisk liberalism. Vilka för- och nackdelar kan tullarna ha?",
+  `<p><b>Merkantilistiskt synsätt:</b> tullarna ska minska USA:s handelsunderskott, skydda inhemska jobb och industri och stärka landet gentemot rivaler. Handel ses som en tävling, alltså ett nollsummespel.</p><p><b>Liberalt synsätt:</b> tullarna gör varorna dyrare för amerikanska konsumenter och företag, leder till motåtgärder (EU och Kina svarar med egna tullar) och minskar specialiseringen enligt komparativa fördelar. Alla länder förlorar.</p><p><b>Möjliga fördelar:</b> skyddade jobb i vissa branscher, mindre beroende av Kina för viktiga varor (säkerhet). <b>Nackdelar:</b> högre priser, inflation, lägre tillväxt och sämre relationer.</p>`],
+ ["8","Agenda 2030, mål 10","A","Välj en nationalekonomisk teori och förklara dess syn på jämlikhet och klass. Använd den för att diskutera hur ojämlikheten i världen kan minska enligt mål 10 i Agenda 2030.",
+  `<p>Se det fullständiga exemplet i Del B, sista frågan. Struktur för A: 1) teorins syn på jämlikhet och klass, 2) koppling till mål 10 (ojämlikhet inom och mellan länder), 3) ett konkret exempel från idag, 4) en lösning enligt teorin, 5) jämförelse med en annan teori eller en kritisk reflektion om lösningen.</p>`]
+];
+document.getElementById("provList").innerHTML = prov.map(([n,h,lvl,q,f])=>`
+ <article class="task"><div class="head"><h3>Uppgift ${n}. ${h}</h3><span class="level">Nivå ${lvl}</span></div><p>${q}</p>
+ <details class="q t-gen" style="border-left-width:1px"><summary><span class="n">✓</span><span>Visa facit</span></summary><div class="a">${f}</div></details></article>`).join("");
+
+/* ---------- Flikar och nedräkning ---------- */
+const tabs=[...document.querySelectorAll("nav.tabs button")];
+function show(id){tabs.forEach(b=>b.setAttribute("aria-selected",b.dataset.tab===id));document.querySelectorAll("section.panel").forEach(s=>s.hidden=s.id!==id);try{localStorage.setItem("nek-tab",id)}catch(e){}}
+tabs.forEach(b=>b.onclick=()=>{show(b.dataset.tab);window.scrollTo({top:0})});
+let start="oversikt";const h=location.hash.slice(1);
+if(tabs.some(b=>b.dataset.tab===h))start=h;else{try{const s=localStorage.getItem("nek-tab");if(s&&tabs.some(b=>b.dataset.tab===s))start=s}catch(e){}}
+show(start);
+(function(){const now=new Date();const exam=new Date(2026,9,7);const d=Math.ceil((exam-new Date(now.getFullYear(),now.getMonth(),now.getDate()))/864e5);
+ document.getElementById("countdown").textContent=d>1?`${d} dagar kvar till provet`:d===1?"Provet är i morgon":d===0?"Provet är i dag. Lycka till!":"Provet är genomfört";})();
+</script>
+</body>
+</html>
